@@ -1,0 +1,62 @@
+{
+  "Random Forest": {
+    "model": "Random Forest",
+    "accuracy": 0.6017617060732499,
+    "majority_baseline": 0.6351414000927214,
+    "precision_win": 0.4605263157894737,
+    "recall_win": 0.5336721728081322,
+    "f1_win": 0.49440847557386697,
+    "roc_auc": 0.6177510457340543,
+    "brier": 0.23959493497778664,
+    "base_win_rate": 0.36485859990727865,
+    "confusion_matrix": [
+      [
+        878,
+        492
+      ],
+      [
+        367,
+        420
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n        Loss       0.71      0.64      0.67      1370\n         Win       0.46      0.53      0.49       787\n\n    accuracy                           0.60      2157\n   macro avg       0.58      0.59      0.58      2157\nweighted avg       0.62      0.60      0.61      2157\n",
+    "expectancy_all_r": 0.04133233437188698,
+    "expectancy_flagged_r": -0.018205263194932517,
+    "expectancy_top_decile_r": 0.07409236106527191,
+    "expectancy_top_quartile_r": 0.009390246616836897,
+    "win_rate_top_decile": 0.5720930232558139,
+    "win_rate_top_quartile": 0.5009276437847866,
+    "n_flagged": 912,
+    "n_test": 2157
+  },
+  "Gradient Boosting": {
+    "model": "Gradient Boosting",
+    "accuracy": 0.6346777932313398,
+    "majority_baseline": 0.6351414000927214,
+    "precision_win": 0.49872122762148335,
+    "recall_win": 0.24777636594663277,
+    "f1_win": 0.3310696095076401,
+    "roc_auc": 0.6052820003895417,
+    "brier": 0.2263066360000607,
+    "base_win_rate": 0.36485859990727865,
+    "confusion_matrix": [
+      [
+        1174,
+        196
+      ],
+      [
+        592,
+        195
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n        Loss       0.66      0.86      0.75      1370\n         Win       0.50      0.25      0.33       787\n\n    accuracy                           0.63      2157\n   macro avg       0.58      0.55      0.54      2157\nweighted avg       0.60      0.63      0.60      2157\n",
+    "expectancy_all_r": 0.04133233437188698,
+    "expectancy_flagged_r": 0.019067121039430222,
+    "expectancy_top_decile_r": -0.03808319030236996,
+    "expectancy_top_quartile_r": -0.0012525275538112707,
+    "win_rate_top_decile": 0.5023255813953489,
+    "win_rate_top_quartile": 0.4842300556586271,
+    "n_flagged": 391,
+    "n_test": 2157
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "meta": {
+    "start_date": "2026-04-02",
+    "end_date": "2026-04-27",
+    "trading_days": 9,
+    "traders": 1,
+    "starting_capital": 10000.0,
+    "assets": [
+      "ETH"
+    ],
+    "strategies": [
+      "Scalping"
+    ],
+    "source": "live journal",
+    "fees_recorded": false,
+    "sample_adequate": false
+  },
+  "headline": {
+    "total_trades": 13,
+    "gross_profit_usd": 246.49,
+    "total_fees_usd": 0.0,
+    "net_profit_usd": 246.49,
+    "total_return_pct": 2.4649,
+    "cagr_pct": 42.72580827167269,
+    "win_rate_pct": 76.92307692307693,
+    "wins": 10,
+    "losses": 3,
+    "profit_factor": 13.973157894736843,
+    "avg_rr_planned": 2.3638461538461537,
+    "avg_rr_realised": 2.426223349300272,
+    "avg_risk_pct": 0.06741734524330258,
+    "avg_trade_duration_min": 10026.775,
+    "median_trade_duration_min": 10026.775,
+    "expectancy_usd": 18.96076923076923,
+    "expectancy_r": 2.426223349300272,
+    "avg_win_usd": 26.549,
+    "avg_loss_usd": -6.333333333333333,
+    "expectancy_formula": 18.960769230769234
+  },
+  "risk": {
+    "max_drawdown_usd": 19.0,
+    "max_drawdown_pct": 0.1869250823946087,
+    "peak_date": "2026-04-19",
+    "trough_date": "2026-04-21",
+    "peak_equity": 10164.5,
+    "trough_equity": 10145.5,
+    "sharpe_ratio": 11.525391614403192,
+    "sortino_ratio": 32.925265667636765,
+    "calmar_ratio": 228.57183061969317,
+    "recovery_factor": 12.973157894736843,
+    "largest_win_usd": 101.5,
+    "largest_loss_usd": -7.5,
+    "worst_trade_r": -1.0,
+    "best_trade_r": 11.277777777777779,
+    "daily_volatility_pct": 0.3526302375640019,
+    "longest_win_streak": {
+      "trader_id": "TR-LIVE",
+      "length": 5
+    },
+    "longest_loss_streak": {
+      "trader_id": "TR-LIVE",
+      "length": 3
+    }
+  },
+  "best_worst": {
+    "best_day": {
+      "date": "2026-04-13",
+      "net_profit": 101.5
+    },
+    "worst_day": {
+      "date": "2026-04-20",
+      "net_profit": -14.5
+    },
+    "best_asset": {
+      "asset": "ETH",
+      "net_profit": 246.49
+    },
+    "worst_asset": {
+      "asset": "ETH",
+      "net_profit": 246.49
+    },
+    "best_strategy": {
+      "strategy": "Scalping",
+      "net_profit": 246.49
+    },
+    "worst_strategy": {
+      "strategy": "Scalping",
+      "net_profit": 246.49
+    },
+    "best_session": {
+      "session": "New York",
+      "net_profit": 202.0
+    },
+    "worst_session": {
+      "session": "London",
+      "net_profit": 13.490000000000009
+    },
+    "best_weekday": {
+      "weekday": "Monday",
+      "net_profit": 91.49000000000001
+    },
+    "worst_weekday": {
+      "weekday": "Tuesday",
+      "net_profit": -4.5
+    }
+  },
+  "breakdowns": {
+    "by_asset": [
+      {
+        "asset": "ETH",
+        "trades": 13,
+        "wins": 10,
+        "net_profit": 246.49,
+        "gross_profit": 265.49,
+        "gross_loss": 19.0,
+        "fees": 0.0,
+        "avg_r": 2.4262,
+        "avg_rr": 2.3638,
+        "avg_risk_pct": 0.0674,
+        "avg_duration_min": 10026.775,
+        "win_rate": 76.9231,
+        "profit_factor": 13.9732,
+        "expectancy_usd": 18.9608
+      }
+    ],
+    "by_strategy": [
+      {
+        "strategy": "Scalping",
+        "trades": 13,
+        "wins": 10,
+        "net_profit": 246.49,
+        "gross_profit": 265.49,
+        "gross_loss": 19.0,
+        "fees": 0.0,
+        "avg_r": 2.4262,
+        "avg_rr": 2.3638,
+        "avg_risk_pct": 0.0674,
+        "avg_duration_min": 10026.775,
+        "win_rate": 76.9231,
+        "profit_factor": 13.9732,
+        "expectancy_usd": 18.9608
+      }
+    ],
+    "by_session": [
+      {
+        "trading_session": "New York",
+        "trades": 8,
+        "wins": 6,
+        "net_profit": 202.0,
+        "gross_profit": 213.5,
+        "gross_loss": 11.5,
+        "fees": 0.0,
+        "avg_r": 3.1204,
+        "avg_rr": 2.4575,
+        "avg_risk_pct": 0.0683,
+        "avg_duration_min": 20014.6,
+        "win_rate": 75.0,
+        "profit_factor": 18.5652,
+        "expectancy_usd": 25.25
+      },
+      {
+        "trading_session": "Asia",
+        "trades": 2,
+        "wins": 2,
+        "net_profit": 31.0,
+        "gross_profit": 31.0,
+        "gross_loss": 0.0,
+        "fees": 0.0,
+        "avg_r": 2.1405,
+        "avg_rr": 2.14,
+        "avg_risk_pct": 0.0712,
+        "avg_duration_min": NaN,
+        "win_rate": 100.0,
+        "profit_factor": NaN,
+        "expectancy_usd": 15.5
+      },
+      {
+        "trading_session": "London",
+        "trades": 3,
+        "wins": 2,
+        "net_profit": 13.49,
+        "gross_profit": 20.99,
+        "gross_loss": 7.5,
+        "fees": 0.0,
+        "avg_r": 0.7655,
+        "avg_rr": 2.2633,
+        "avg_risk_pct": 0.0626,
+        "avg_duration_min": 38.95,
+        "win_rate": 66.6667,
+        "profit_factor": 2.7987,
+        "expectancy_usd": 4.4967
+      }
+    ],
+    "by_weekday": [
+      {
+        "weekday": "Monday",
+        "trades": 4,
+        "wins": 2,
+        "net_profit": 91.49,
+        "gross_profit": 105.99,
+        "gross_loss": 14.5,
+        "fees": 0.0,
+        "avg_r": 2.5936,
+        "avg_rr": 2.31,
+        "avg_risk_pct": 0.0679,
+        "avg_duration_min": 10026.775,
+        "win_rate": 50.0,
+        "profit_factor": 7.3097,
+        "expectancy_usd": 22.8725
+      },
+      {
+        "weekday": "Thursday",
+        "trades": 4,
+        "wins": 4,
+        "net_profit": 63.5,
+        "gross_profit": 63.5,
+        "gross_loss": 0.0,
+        "fees": 0.0,
+        "avg_r": 2.4048,
+        "avg_rr": 2.4075,
+        "avg_risk_pct": 0.0663,
+        "avg_duration_min": NaN,
+        "win_rate": 100.0,
+        "profit_factor": NaN,
+        "expectancy_usd": 15.875
+      },
+      {
+        "weekday": "Wednesday",
+        "trades": 1,
+        "wins": 1,
+        "net_profit": 48.0,
+        "gross_profit": 48.0,
+        "gross_loss": 0.0,
+        "fees": 0.0,
+        "avg_r": 6.0,
+        "avg_rr": 1.88,
+        "avg_risk_pct": 0.0785,
+        "avg_duration_min": NaN,
+        "win_rate": 100.0,
+        "profit_factor": NaN,
+        "expectancy_usd": 48.0
+      },
+      {
+        "weekday": "Sunday",
+        "trades": 2,
+        "wins": 2,
+        "net_profit": 31.5,
+        "gross_profit": 31.5,
+        "gross_loss": 0.0,
+        "fees": 0.0,
+        "avg_r": 2.1738,
+        "avg_rr": 2.17,
+        "avg_risk_pct": 0.0714,
+        "avg_duration_min": NaN,
+        "win_rate": 100.0,
+        "profit_factor": NaN,
+        "expectancy_usd": 15.75
+      },
+      {
+        "weekday": "Friday",
+        "trades": 1,
+        "wins": 1,
+        "net_profit": 16.5,
+        "gross_profit": 16.5,
+        "gross_loss": 0.0,
+        "fees": 0.0,
+        "avg_r": 2.2,
+        "avg_rr": 2.2,
+        "avg_risk_pct": 0.074,
+        "avg_duration_min": NaN,
+        "win_rate": 100.0,
+        "profit_factor": NaN,
+        "expectancy_usd": 16.5
+      },
+      {
+        "weekday": "Tuesday",
+        "trades": 1,
+        "wins": 0,
+        "net_profit": -4.5,
+        "gross_profit": 0.0,
+        "gross_loss": 4.5,
+        "fees": 0.0,
+        "avg_r": -1.0,
+        "avg_rr": 3.44,
+        "avg_risk_pct": 0.0444,
+        "avg_duration_min": NaN,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "expectancy_usd": -4.5
+      }
+    ],
+    "by_emotion": [
+      {
+        "emotional_state": "Unspecified",
+        "trades": 13,
+        "wins": 10,
+        "net_profit": 246.49,
+        "gross_profit": 265.49,
+        "gross_loss": 19.0,
+        "fees": 0.0,
+        "avg_r": 2.4262,
+        "avg_rr": 2.3638,
+        "avg_risk_pct": 0.0674,
+        "avg_duration_min": 10026.775,
+        "win_rate": 76.9231,
+        "profit_factor": 13.9732,
+        "expectancy_usd": 18.9608
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "spearman_expected_r": 0.06731551802158091,
+  "spearman_p_win": -0.015918203341450873,
+  "r2": 0.0012401209462534757,
+  "mae": 1.2915732191756086,
+  "baseline_expectancy_r": 0.04133233437188698,
+  "comparison": [
+    {
+      "selection": "Top 10%",
+      "n": 215,
+      "expR_expectancy": 0.055842421324582496,
+      "expR_wr": 0.30697674418604654,
+      "pwin_expectancy": 0.07409236106527191,
+      "pwin_wr": 0.5720930232558139
+    },
+    {
+      "selection": "Top 25%",
+      "n": 539,
+      "expR_expectancy": 0.11237893167001796,
+      "expR_wr": 0.3450834879406308,
+      "pwin_expectancy": 0.009390246616836897,
+      "pwin_wr": 0.5009276437847866
+    },
+    {
+      "selection": "Top 50%",
+      "n": 1078,
+      "expR_expectancy": 0.11623303292697464,
+      "expR_wr": 0.3589981447124304,
+      "pwin_expectancy": 0.019419496333411917,
+      "pwin_wr": 0.4489795918367347
+    }
+  ],
+  "verdict": "CONFIRMED"
+}

@@ -1,0 +1,13 @@
+# Regenerable artefacts — rebuild with `python python/run_all.py` (~30s)
+data/tradetrack.db                        # binary warehouse, rebuilt by load_to_sql
+data/processed/trades_clean_notebook.csv  # duplicate export from the notebook
+
+# The raw and cleaned CSVs ARE committed on purpose: a reviewer should be able
+# to inspect the dataset without running anything.
+
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+venv/
+.env

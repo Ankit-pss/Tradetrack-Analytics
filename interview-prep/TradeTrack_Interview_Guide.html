@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradeTrack: Interview-Prep Technical Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0.75in;
+      @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 10px;
+        color: #666;
+      }
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+    }
+    .page-break { page-break-before: always; }
+    h1 { font-size: 2.5em; margin: 0.5em 0 0.3em; color: #1a5490; border-bottom: 3px solid #1a5490; padding-bottom: 0.3em; }
+    h2 { font-size: 2em; margin: 1em 0 0.5em; color: #2e7cb4; border-left: 5px solid #2e7cb4; padding-left: 0.5em; }
+    h3 { font-size: 1.4em; margin: 0.8em 0 0.3em; color: #0d47a1; }
+    h4 { font-size: 1.1em; margin: 0.6em 0 0.2em; color: #333; font-weight: 600; }
+    p { margin: 0.8em 0; }
+    ul, ol { margin: 0.8em 0 0.8em 2em; }
+    li { margin: 0.4em 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.95em;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 0.7em;
+      text-align: left;
+    }
+    table th {
+      background: #e8f4f8;
+      font-weight: 600;
+      color: #0d47a1;
+    }
+    table tr:nth-child(even) {
+      background: #f9fafb;
+    }
+    code {
+      background: #f5f5f5;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 1em;
+      border-left: 4px solid #1a5490;
+      overflow-x: auto;
+      margin: 0.8em 0;
+      font-size: 0.85em;
+      line-height: 1.4;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .section {
+      margin: 1.5em 0;
+    }
+    .highlight {
+      background: #fff3cd;
+      padding: 1em;
+      border-left: 4px solid #ff9800;
+      margin: 1em 0;
+    }
+    .metric-box {
+      background: #e8f5e9;
+      padding: 1em;
+      border-radius: 5px;
+      margin: 0.8em 0;
+      border-left: 4px solid #4caf50;
+    }
+    .challenge-box {
+      background: #ffebee;
+      padding: 1em;
+      border-radius: 5px;
+      margin: 0.8em 0;
+      border-left: 4px solid #f44336;
+    }
+    .qa-block {
+      background: #f3e5f5;
+      padding: 1em;
+      border-radius: 5px;
+      margin: 1em 0;
+      border-left: 4px solid #9c27b0;
+    }
+    .qa-question { font-weight: 600; color: #6a1b9a; margin-bottom: 0.5em; }
+    .qa-intention { font-size: 0.9em; color: #7b1fa2; margin: 0.5em 0; font-style: italic; }
+    .qa-answer { margin: 0.5em 0; }
+    .cover-page {
+      text-align: center;
+      padding: 2em;
+      margin-top: 3em;
+    }
+    .cover-page h1 {
+      font-size: 3.5em;
+      margin: 0.5em 0;
+      border: none;
+    }
+    .cover-page .subtitle {
+      font-size: 1.5em;
+      color: #666;
+      margin: 1em 0;
+    }
+    .cover-page .details {
+      font-size: 1.1em;
+      margin-top: 2em;
+      color: #666;
+      line-height: 2;
+    }
+    .toc {
+      page-break-before: always;
+      margin: 2em 0;
+    }
+    .toc-entry {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    .toc-entry.level1 { font-weight: 600; color: #1a5490; }
+    .toc-entry.level2 { font-size: 0.95em; color: #555; margin-left: 1em; }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1em;
+      margin: 1em 0;
+    }
+    .metric-item {
+      background: #e8f4f8;
+      padding: 0.8em;
+      border-radius: 5px;
+      border-left: 4px solid #2e7cb4;
+    }
+    .metric-label { font-size: 0.85em; color: #666; }
+    .metric-value { font-size: 1.4em; font-weight: 600; color: #0d47a1; margin-top: 0.3em; }
+  </style>
+</head>
+<body>
+
+<!-- ====== COVER PAGE ====== -->
+<div class="cover-page">
+  <h1>TradeTrack</h1>
+  <p class="subtitle">A Full-Stack Trading Analytics Platform</p>
+  <p style="margin-top: 3em; font-size: 1.2em;">Technical Interview Preparation Guide</p>
+  <p style="margin-top: 2em; color: #999; font-size: 1em;">Comprehensive Walkthrough for Data Engineers, Analytics Engineers, and Full-Stack Developers</p>
+  <div class="details">
+    <p><strong>Author:</strong> Ankit Maholiya</p>
+    <p><strong>Created:</strong> August 2026</p>
+    <p><strong>Scope:</strong> TradeTrack Journal (Flask web app) + TradeTrack Analytics (Data Pipeline &amp; Dashboard)</p>
+  </div>
+</div>
+
+<!-- ====== TABLE OF CONTENTS ====== -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-entry level1">1. Project Overview</div>
+  <div class="toc-entry level1">2. Problem Identification &amp; Motivation</div>
+  <div class="toc-entry level1">3. Project Objectives &amp; Key Features</div>
+  <div class="toc-entry level1">4. Complete System Architecture</div>
+  <div class="toc-entry level1">5. Technology Stack Explanation</div>
+  <div class="toc-entry level1">6. Detailed Project Workflow</div>
+  <div class="toc-entry level1">7. Code-Level Explanation &amp; Design Patterns</div>
+  <div class="toc-entry level1">8. Database Design &amp; SQL Patterns</div>
+  <div class="toc-entry level1">9. API &amp; Integration Explanation</div>
+  <div class="toc-entry level1">10. Challenges Faced During Development</div>
+  <div class="toc-entry level1">11. Improvements &amp; Future Scope</div>
+  <div class="toc-entry level1">12. Deployment &amp; Operational Considerations</div>
+  <div class="toc-entry level1">13. Interview Preparation Questions &amp; Answers</div>
+  <div class="toc-entry level1">14. Interview Explanation Script (3-5 minutes)</div>
+  <div class="toc-entry level1">15. Resume Bullet Points</div>
+  <div class="toc-entry level1">16. Final Interview Checklist</div>
+</div>
+
+<!-- ====== SECTION 1: PROJECT OVERVIEW ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>1. Project Overview</h2>
+
+  <h3>Project Name</h3>
+  <p><strong>TradeTrack</strong> — A full-stack trading analytics and journaling platform.</p>
+
+  <h3>One-Line Description</h3>
+  <p>A comprehensive system for logging, analyzing, and visualizing trading performance across multiple traders, strategies, and instruments with deterministic risk-adjusted metrics and machine-learning-powered insights.</p>
+
+  <h3>Purpose</h3>
+  <p>To provide retail traders and trading desks with a unified platform that:</p>
+  <ul>
+    <li>Logs individual trades with full trade lifecycle data (entry, exit, risk/reward, fees, emotional state).</li>
+    <li>Cleans and validates raw trading data against production-level defects.</li>
+    <li>Stores validated trades in a star-schema SQL warehouse enabling rapid analytical queries.</li>
+    <li>Computes risk-adjusted performance metrics (Sharpe, Sortino, Calmar, drawdown) using rigorous formulas.</li>
+    <li>Discovers behavioral and structural trading patterns via 21 analytical SQL queries and machine learning.</li>
+    <li>Visualizes trading performance in an interactive, zero-dependency web dashboard.</li>
+  </ul>
+
+  <h3>Why This Project Was Built</h3>
+  <p>Existing trading journal tools (Edgewonk, TraderSync) are subscription-based and lack deep analytical depth. Spreadsheet-based tracking is fragile and error-prone. This project demonstrates how to:</p>
+  <ul>
+    <li>Build an end-to-end data pipeline from raw logs to actionable insights.</li>
+    <li>Implement production-grade data validation (reconciliation checks, leakage guards, determinism).</li>
+    <li>Design a SQL warehouse that supports both aggregate reporting and granular analysis.</li>
+    <li>Use machine learning responsibly (chronological splits, honest model cards, objective comparison).</li>
+    <li>Create a frontend that handles real-time filtering on tens of thousands of rows without external dependencies.</li>
+  </ul>
+
+  <h3>Real-World Problem Statement</h3>
+  <p>Retail traders face a critical gap:</p>
+  <ul>
+    <li><strong>Data fragmentation:</strong> Trades logged in a journal app, analysis done in Excel, performance reviewed in email reports.</li>
+    <li><strong>Metric confusion:</strong> Gross P&amp;L ignores fees (one strategy is +$15K gross, -$105K net due to 11.7% fees). Win rate alone is misleading (52.9% win rate with -0.113R expectancy is a losing strategy).</li>
+    <li><strong>Behavioral blindness:</strong> No systematic way to quantify how revenge trading, overtrading, or tilt affect results.</li>
+    <li><strong>Data quality uncertainty:</strong> No reconciliation between reported P&amp;L and recomputed P&amp;L; missing fees; inconsistent timestamps.</li>
+  </ul>
+
+  <h3>Existing Solutions &amp; Their Limitations</h3>
+  <table>
+    <tr>
+      <th>Solution</th>
+      <th>Strengths</th>
+      <th>Limitations</th>
+    </tr>
+    <tr>
+      <td><strong>Edgewonk / TraderSync</strong></td>
+      <td>User-friendly; cloud-hosted; built-in analytics</td>
+      <td>Subscription fees; closed-source; limited custom analysis; metrics not explained; no leakage guards in ML</td>
+    </tr>
+    <tr>
+      <td><strong>Excel / Spreadsheets</strong></td>
+      <td>Familiar; customizable; free</td>
+      <td>Fragile; hard to audit; no data validation; scales poorly; formulas hard to version</td>
+    </tr>
+    <tr>
+      <td><strong>TradeTrack</strong></td>
+      <td>End-to-end pipeline; open-source; production guardrails; honest ML; real KPIs; zero-dep dashboard</td>
+      <td>Requires deployment; no user authentication (single-user local tool); learning curve for architecture</td>
+    </tr>
+  </table>
+
+  <h3>Why This Solution Is Better</h3>
+  <p>This project combines:</p>
+  <ul>
+    <li><strong>Data integrity:</strong> Reconciliation checks compare CSV → DB → KPI pipeline outputs; build fails loudly on drift.</li>
+    <li><strong>Metric correctness:</strong> All P&amp;L is net of fees; all comparisons use R-multiples; win rate is contextualized against breakeven.</li>
+    <li><strong>ML rigor:</strong> 30 post-close columns hard-banned; chronological split (never random); model cards state honest limitations.</li>
+    <li><strong>Reproducibility:</strong> Deterministic seeding; all SQL queries execute on every build; dashboard is generated, not hand-maintained.</li>
+    <li><strong>Transparency:</strong> Source code is readable; formulas are explained; every number is computed, not guessed.</li>
+  </ul>
+</div>
+
+<!-- ====== SECTION 2: PROBLEM IDENTIFICATION ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>2. Problem Identification &amp; Motivation</h2>
+
+  <h3>Core Problem</h3>
+  <p>Retail traders lack a single, trustworthy, analytical source of truth for their trading performance. The pain points:</p>
+
+  <h4>A. Data Fragmentation</h4>
+  <ul>
+    <li><strong>The problem:</strong> Trades are logged in one system (journal app), reviewed in another (Excel), aggregated in a third (Slack report, email).</li>
+    <li><strong>Real-world impact:</strong> A trader might close a trade in the app, but the P&amp;L from that trade doesn't appear in the weekly analysis because the Excel file was frozen before the new data was exported.</li>
+    <li><strong>Why it matters:</strong> Decisions are made on stale, potentially inconsistent data.</li>
+  </ul>
+
+  <h4>B. Metric Confusion</h4>
+  <ul>
+    <li><strong>Gross vs. net P&amp;L:</strong> A strategy that is +$15K gross (winning trades) is actually -$105K net after 11.7% fees. Most traders only watch gross and never discover the fee leak.</li>
+    <li><strong>Win rate as a goal:</strong> A 52.9% win rate sounds good until you learn those trades have -0.113R expectancy because they target 0.9:1, which is below breakeven. Focusing on win rate selects the wrong trades.</li>
+    <li><strong>Dollar P&amp;L hides strategy quality:</strong> A $12 scalp and a $4,000 swing are incomparable. Using R-multiples (risk-normalized returns) makes them comparable and reveals that the small trade was actually the better risk-adjusted opportunity.</li>
+  </ul>
+
+  <h4>C. Behavioral Blindness</h4>
+  <ul>
+    <li><strong>The problem:</strong> Traders know they have bad habits (revenge trading, overtrading after losses) but lack quantified data on the cost.</li>
+    <li><strong>Real example from this project:</strong> Revenge-state trades return -0.141R vs +0.089R for disciplined trades, and are sized 2.3× larger — the double-harm of low expectancy plus oversizing.</li>
+    <li><strong>Why it matters:</strong> Behavioral coaching requires numbers. "You revenge-trade too much" is hearsay; "Revenge trades cost you -0.141R and are 2.3× oversized" is actionable.</li>
+  </ul>
+
+  <h4>D. Data Quality Uncertainty</h4>
+  <ul>
+    <li><strong>Silent data loss:</strong> Open trades are dropped from analysis without being flagged as excluded. Missing fees are silently imputed as $0.</li>
+    <li><strong>Timestamp chaos:</strong> Some trade entries carry seconds (`2026-04-22T14:30:48`) while others don't (`2026-04-21T22:15`). A naive time-based analysis would round both to the same minute and lose intra-minute patterns.</li>
+    <li><strong>The quantity convention:</strong> Some APIs encode position size as quantity=100 meaning "1 unit"; others use quantity=1 literally. If the convention is wrong, all P&amp;L is off by 100×.</li>
+  </ul>
+
+  <h3>How the Problem Was Identified</h3>
+  <p>During an earlier retail-trading venture, I kept a manual Excel journal. After 200 trades, I realized:</p>
+  <ol>
+    <li>I couldn't easily answer "which hour of day is my worst?" without sorting by hand.</li>
+    <li>My win rate was 45%, but I was losing money — this confusion between win rate and expectancy cost me real confidence in my edge.</li>
+    <li>A spreadsheet formula broke (copy-paste error), and I didn't notice for 10 trades. By the time I found it, I'd made decisions on corrupted data.</li>
+  </ol>
+  <p>This project is the industrial-strength solution to that problem.</p>
+
+  <h3>Real-World Scenario Where This Problem Occurs</h3>
+  <p><strong>Scenario:</strong> A small trading desk with 3–4 traders logging trades in a shared journal app.</p>
+  <ul>
+    <li><strong>Day 1:</strong> Trader A closes 5 trades. The numbers go into the journal app database.</li>
+    <li><strong>Day 5:</strong> The trading manager exports the journal to CSV and loads it into a Power BI model. But the export script has a bug — it's missing the `fees` column.</li>
+    <li><strong>Day 7:</strong> The manager reports "profit factor is 1.2" — but this is gross profit factor, not net. Unbeknownst to everyone, fees ate 40% of the profit, and the real profit factor is 0.8 (a losing month).</li>
+    <li><strong>Day 30:</strong> At month-end review, three traders are deemed "profitable" and get bonuses. Only then does someone notice the fee issue. The desk has overpaid bonuses and made strategic decisions on false data.</li>
+  </ul>
+  <p><strong>Why TradeTrack solves this:</strong> Every stage of the pipeline (CSV → clean CSV → database → KPI) is reconciled. If fees are missing or corrupted, the build fails loudly before the wrong numbers propagate.</p>
+
+  <h3>Why Solving This Problem Is Important</h3>
+  <ul>
+    <li><strong>Financial impact:</strong> Fees hide in gross P&amp;L and can swallow 50%+ of profits. Quantifying this gap is the first lever for improving returns.</li>
+    <li><strong>Decision quality:</strong> Behavioral insights (revenge trading, overtrading, tilt) are only actionable if they're quantified. "You revenge-trade at 2.3× size" is coachable; "You're undisciplined" is not.</li>
+    <li><strong>Risk management:</strong> Max drawdown, win streaks, and streak recovery times are critical to position sizing and portfolio management. Without these metrics, a trader can't assess whether they're taking on too much equity risk.</li>
+    <li><strong>Edge verification:</strong> Most retail traders believe they have an edge, but they never measure it correctly. A proper expectancy calculation (weighted by R, not dollars) reveals whether an edge is real or an illusion caused by survivor bias or good luck.</li>
+  </ul>
+</div>
+
+<!-- ====== SECTION 3: PROJECT OBJECTIVES ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>3. Project Objectives &amp; Key Features</h2>
+
+  <h3>Main Goals</h3>
+  <ul>
+    <li><strong>Goal 1: Data Truth via Net-of-Fees, Risk-Normalized Metrics</strong> Measure trading performance accurately using R-multiples (risk-normalized returns) and net P&amp;L (after all costs). This makes trades directly comparable regardless of size and reveals which strategies actually profit after fees.</li>
+    <li><strong>Goal 2: Production-Grade Data Integrity</strong> Build a pipeline that doesn't fail silently. Reconciliation checks, leakage guards, and deterministic seeding ensure every published metric is trustworthy and reproducible.</li>
+    <li><strong>Goal 3: Behavioral Discovery via Quantified Analytics</strong> Surface hidden patterns (revenge trading, overtrading, tilt spirals, disposition effect) with exact numbers, enabling data-driven coaching and strategic improvements.</li>
+    <li><strong>Goal 4: Responsible Machine Learning</strong> Build an ML model that predicts trade outcomes using only pre-entry information, with hard-coded leakage bans, honest model cards, and rigorous evaluation (chronological splits, not random).</li>
+    <li><strong>Goal 5: Accessible Visualization</strong> Create an interactive, zero-dependency dashboard that makes insights accessible to non-technical traders without CDN dependencies or build complexity.</li>
+  </ul>
+
+  <h3>Expected Outcomes</h3>
+  <table>
+    <tr>
+      <th>Outcome</th>
+      <th>Target Metric</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>Identify highest-return hour of day</td>
+      <td>London session (08:00 UTC): +0.212R/trade, 51% of annual profit</td>
+      <td>✓ Achieved</td>
+    </tr>
+    <tr>
+      <td>Quantify behavioral cost of revenge trading</td>
+      <td>-0.141R vs +0.089R disciplined; 2.3× oversized</td>
+      <td>✓ Achieved</td>
+    </tr>
+    <tr>
+      <td>Reveal fee leakage by strategy</td>
+      <td>Scalping: 11.7% of risk in fees (vs 3.5% avg); -$106K net</td>
+      <td>✓ Achieved</td>
+    </tr>
+    <tr>
+      <td>Build a ML model with no leakage</td>
+      <td>30 post-close columns hard-banned; chronological split</td>
+      <td>✓ Achieved</td>
+    </tr>
+    <tr>
+      <td>Create a zero-dependency dashboard</td>
+      <td>Single HTML file, filters 10,781 trades in &lt;100ms, no CDN</td>
+      <td>✓ Achieved</td>
+    </tr>
+  </table>
+
+  <h3>Key Features</h3>
+
+  <h4>Journal Web App (Flask + Vanilla JS)</h4>
+  <ul>
+    <li>Trade logging with entry/exit prices, stop/target, quantity, strategy, emotional state, notes, risk/reward amounts.</li>
+    <li>Photo upload for evidence/records (stored in `client/uploads/`, served statically).</li>
+    <li>Dashboard view with live P&amp;L, win rate, equity curve, and best/worst trades.</li>
+    <li>Trade history with inline edit/close/delete actions.</li>
+    <li>Calendar view (monthly grid of daily P&amp;L).</li>
+    <li>Analytics view with insights (best/worst hour, revenge-trading warnings, overtrading alerts).</li>
+    <li>Filters (date range, asset, strategy) applied across all views.</li>
+  </ul>
+
+  <h4>Analytics Pipeline (Python)</h4>
+  <ul>
+    <li><strong>Data generation:</strong> Simulate a realistic blotter (11,130 trades with injected production defects).</li>
+    <li><strong>Data cleaning:</strong> Fix duplicates, timestamps, decimals, outliers; engineer 77 features; generate aggregated marts.</li>
+    <li><strong>SQL warehouse:</strong> Load data into a star-schema SQLite warehouse with 8 indexes, 3 views.</li>
+    <li><strong>SQL analysis:</strong> Execute 21 analytical queries (streaks, drawdown, growth, heatmaps, risk-reward buckets) on every run.</li>
+    <li><strong>KPI computation:</strong> Calculate Sharpe, Sortino, Calmar, profit factor, expectancy, max drawdown using rigorous formulas.</li>
+    <li><strong>Visualizations:</strong> Generate 16 charts (equity curve, monthly P&amp;L, distributions, heatmaps, ML results).</li>
+    <li><strong>ML models:</strong> Train a classification model (predict P(win)) and a regression model (predict expected-R), compare objectives.</li>
+    <li><strong>Business insights:</strong> Compute 20 business findings (one-hour domination, fee leakage, revenge-trading cost, overtrading collapse, survivorship).</li>
+    <li><strong>Dashboard compilation:</strong> Encode data in a columnar, dictionary-compressed format; ship as `data.js` (726 KB).</li>
+  </ul>
+
+  <h4>Dashboard (Zero-Dependency)</h4>
+  <ul>
+    <li>6 animated KPI cards (gross, net, win rate, avg RR, max drawdown, avg duration).</li>
+    <li>10 interactive charts (equity curve with crosshair, monthly P&amp;L, daily distribution, asset/strategy breakdowns, session/hour/weekday heatmaps, risk bands).</li>
+    <li>5 live filters (date range, asset, strategy, session, side) with real-time recalculation.</li>
+    <li>Hand-rolled inline SVG (no D3/Chart.js); single-pass vectorized filtering; adaptive axis precision.</li>
+    <li>Glassmorphism design; dark theme; full mobile responsiveness.</li>
+  </ul>
+
+  <h3>How the Project Solves the Identified Problem</h3>
+  <p><strong>Problem:</strong> Traders lack a trustworthy, unified source of truth for their performance.</p>
+  <p><strong>Solution approach:</strong></p>
+  <ol>
+    <li><strong>Centralize data:</strong> All trades flow through a single journal app into a single SQL warehouse.</li>
+    <li><strong>Validate obsessively:</strong> Reconciliation checks compare input → output at every stage. Build fails if drift detected.</li>
+    <li><strong>Use correct metrics:</strong> Net-of-fees, R-multiples, risk-adjusted Sharpe/Sortino. No gross P&amp;L, no dollar-based rankings.</li>
+    <li><strong>Quantify behavior:</strong> Run aggregations by emotional state, session, overtrading level, and streak state. Surface the numerical cost of bad habits.</li>
+    <li><strong>Deliver insights accessible:</strong> Interactive dashboard + auto-generated business findings make patterns self-evident.</li>
+  </ol>
+</div>
+
+<!-- ====== SECTION 4: SYSTEM ARCHITECTURE ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>4. Complete System Architecture</h2>
+
+  <h3>High-Level Architecture Diagram</h3>
+  <pre style="background: #f9f9f9; border: 1px solid #ddd; padding: 1em;">
+┌─────────────────────────────────────────────────────────────────┐
+│                     USER (Trader)                                │
+│                                                                  │
+│  1. Logs trades in the web app (entry/exit/risk/reward/emotion) │
+│  2. Uploads trade screenshots                                   │
+│  3. Views dashboard with live P&amp;L and insights                 │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+        ┌────────────────────────────────────────┐
+        │   TradeTrack Journal Web App            │
+        │   (Flask + Vanilla JS)                  │
+        │   Port 5001, localhost only             │
+        │                                         │
+        │  Routes:                                │
+        │  • GET  /api/stats                      │
+        │  • POST /api/trades                     │
+        │  • PUT  /api/trades/:id (quick-close)   │
+        │  • DELETE /api/trades/:id               │
+        │  • GET  /api/analytics (insights)       │
+        │  • POST /api/run-analytics (trigger)    │
+        └────────────┬──────────────────────────┘
+                     │
+                     ├─────────────────────────────────────────────┐
+                     │                                             │
+                     ▼                                             ▼
+        ┌──────────────────────────┐                 ┌──────────────────────────┐
+        │  server/database.db      │                 │  TradeTrack Analytics    │
+        │  (SQLite, 13 live rows)  │                 │  Pipeline                │
+        │                          │                 │  (Python, port 5002)     │
+        │  Table: trades           │                 │                          │
+        │  Columns:                │                 │  1. Generate dataset     │
+        │  • date, asset, type     │                 │  2. Clean & feature eng. │
+        │  • entry_price,exit_price│                 │  3. Load to SQL warehouse│
+        │  • quantity (1 unit=100) │                 │  4. Run 21 SQL queries   │
+        │  • profit_loss           │                 │  5. Compute KPIs         │
+        │  • risk_amount, mistakes │                 │  6. Train ML models      │
+        │  • emotional_state       │                 │  7. Generate insights    │
+        │  • photo (file ref)      │                 │  8. Build dashboard      │
+        └────────┬─────────────────┘                 └──────────────┬───────────┘
+                 │                                                  │
+                 │ import_journal.py                               │
+                 └──────────────────────────────┬──────────────────┘
+                                                │
+                                                ▼
+                        ┌───────────────────────────────────────┐
+                        │ datasets/tradetrack.db                │
+                        │ (SQLite Star Schema Warehouse)        │
+                        │                                       │
+                        │ Dimensions:                           │
+                        │ • dim_trader (12 rows)                │
+                        │ • dim_asset (6 rows)                  │
+                        │ • dim_strategy (7 rows)               │
+                        │ • dim_calendar (855 rows)             │
+                        │                                       │
+                        │ Facts:                                │
+                        │ • fact_trades (10,794 rows)           │
+                        │   - Synthetic + Real merged           │
+                        │   - 50+ columns: price, risk, P&L,    │
+                        │     sequences, streaks, equity curve  │
+                        │                                       │
+                        │ Indexes: 8 (trader, asset, session)   │
+                        │ Views: 3 (daily, monthly, trader_sum) │
+                        └───────────┬───────────────────────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    │               │               │
+                    ▼               ▼               ▼
+        ┌──────────────────┐   ┌──────────────┐  ┌──────────────────┐
+        │ reports/         │   │ reports/     │  │ ML Models        │
+        │ Insights, KPIs   │   │ Images/      │  │                  │
+        │ SQL results      │   │ Charts       │  │ • Classifier:    │
+        │                  │   │              │  │   RF + GB        │
+        │ • kpi_summary    │   │ • equity_    │  │ • Regression:    │
+        │   .json          │   │   curve.png  │  │   Expected-R     │
+        │ • business_      │   │ • monthly_   │  │                  │
+        │   insights.md    │   │   pnl.png    │  │ Metrics:         │
+        │ • data_quality   │   │ • heatmaps   │  │ • Accuracy 0.602 │
+        │   _report.md     │   │              │  │ • ROC-AUC 0.618  │
+        │ • ml_model_      │   │ (16 total)   │  │ • Exp.R corr     │
+        │   report.md      │   └──────────────┘  │   +0.067         │
+        └──────────────────┘                     └──────────────────┘
+                    │
+                    └──────────────────────┬──────────────────────┘
+                                           │
+                                           ▼
+                        ┌──────────────────────────────────┐
+                        │ frontend/dashboard/data.js       │
+                        │ (Columnar, dictionary-encoded)   │
+                        │                                  │
+                        │ Size: 726.66 KB                  │
+                        │ Rows: 10,794 (fact trades)       │
+                        │                                  │
+                        │ Layout:                          │
+                        │ • dims: lookup tables (asset,    │
+                        │   strategy, session, trader, etc)│
+                        │ • cols: parallel arrays          │
+                        │   - categorical: integer indices │
+                        │   - numeric: raw values          │
+                        │   - dates: day offsets           │
+                        └──────────────┬───────────────────┘
+                                       │
+                                       ▼
+                        ┌──────────────────────────────────┐
+                        │ Interactive Dashboard            │
+                        │ (HTML + Inline SVG + JS)         │
+                        │                                  │
+                        │ • 6 KPI cards (animated)         │
+                        │ • 10 charts (hand-rolled SVG)    │
+                        │ • 5 live filters                 │
+                        │ • Single-pass vectorized filter  │
+                        │ • <100ms filter latency          │
+                        │ • Zero external dependencies     │
+                        │ • Dark theme + glassmorphism     │
+                        └──────────────────────────────────┘</pre>
+
+  <h3>Data Flow Through the System</h3>
+
+  <h4>Forward Flow: User Input → Analytics</h4>
+  <ol>
+    <li><strong>User logs a trade</strong> in the web app (entry price, quantity, stop, target, emotion, etc.).</li>
+    <li><strong>Flask backend</strong> computes P&amp;L: `profit_loss = (exit_price - entry_price) * (quantity / 100) * direction`.</li>
+    <li><strong>Trade is stored</strong> in `server/database.db` with a row ID and optional photo file.</li>
+    <li><strong>Webhook (uncomitted diff)</strong> triggers `/api/run-analytics`, which spawns a background subprocess.</li>
+    <li><strong>Analytics pipeline runs</strong> (import_journal.py reads the new trade from server/database.db, adds it to the 10,781 synthetic trades).</li>
+    <li><strong>ETL stages execute</strong> in sequence: generate_dataset → data_cleaning → load_to_sql → run_sql_analysis → kpi_engine → visualizations → ml_model → generate_insights → build_dashboard.</li>
+    <li><strong>Dashboard data layer</strong> (data.js) is regenerated; frontend auto-refreshes when the file is updated.</li>
+    <li><strong>User sees new trade</strong> reflected in dashboard KPIs, charts, and insights.</li>
+  </ol>
+
+  <h4>Request-Response Lifecycle (Example: "Show me profit by session")</h4>
+  <pre>
+User clicks "Session" filter in dashboard
+
+      │
+      ▼
+Browser calls GET /api/analytics?session=London&start=...&end=...
+
+      │
+      ▼
+Flask server loads server/database.db trades matching filters
+
+      │
+      ▼
+Python computes aggregates (win%, gross/net P&amp;L, avg RR) grouped by session
+
+      │
+      ▼
+Returns JSON: {trading_session: {session_name, trades, pnl, win_rate, ...}, ...}
+
+      │
+      ▼
+Frontend renders bar chart: horizontal bars (sessions) with P&amp;L color-coded
+(green=profit, red=loss)
+
+      │
+      ▼
+Chart displayed; user can click another filter and repeat (no page reload)
+  </pre>
+
+  <h3>Component Interaction</h3>
+
+  <h4>The Journal App & Analytics are Loosely Coupled</h4>
+  <ul>
+    <li><strong>Forward integration:</strong> When a trade is logged in the Journal, a background thread can kick the Analytics pipeline.</li>
+    <li><strong>Reverse integration:</strong> Analytics pipeline reads from server/database.db via import_journal.py (maps to the analytical schema, reconciles P&amp;L).</li>
+    <li><strong>Dashboard unification:</strong> The analytics dashboard merges 10,781 synthetic trades with 13 real journal trades (tagged by a `data_source` dimension: real / synthetic). This allows the user to toggle between "what I actually traded" and "simulated edge for benchmarking."</li>
+  </ul>
+
+  <h4>The SQL Warehouse is the Hub</h4>
+  <ul>
+    <li>Every analytical query (KPI computation, ML feature matrix, insight generation) reads from the warehouse, not raw CSVs.</li>
+    <li>Indices speed up common aggregations (by trader, by session, by time).</li>
+    <li>Views (daily_pnl, monthly_pnl, trader_summary) pre-aggregate common rollups.</li>
+  </ul>
+
+  <h4>The Dashboard is Read-Only</h4>
+  <ul>
+    <li>All data is generated once (run_all.py) and baked into data.js.</li>
+    <li>The frontend only reads from data.js; no server calls after page load.</li>
+    <li>Filtering, charting, and aggregation all happen client-side in memory.</li>
+  </ul>
+
+</div>
+
+<!-- ====== SECTION 5: TECHNOLOGY STACK ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>5. Technology Stack Explanation</h2>
+
+  <h3>Frontend (Journal Web App Client)</h3>
+
+  <h4>HTML5 + Vanilla JavaScript + Tailwind CSS (CDN)</h4>
+  <p><strong>Why chosen:</strong> No build step, no dependencies, no frontend framework complexity. A single `client/index.html` file loads a CSS framework via CDN and a custom `client/script.js` for application logic.</p>
+  <ul>
+    <li><strong>Role:</strong> Renders the trade-logging form, dashboard, history table, calendar grid, analytics insights, and filter bar.</li>
+    <li><strong>Advantages:</strong> Instant page load, works offline (after first load), easy to audit, minimal attack surface (no npm packages).</li>
+    <li><strong>Alternatives considered:</strong> React, Vue (would require a build step and a dev server; overkill for a single-page CRUD app).</li>
+    <li><strong>Browser APIs used:</strong> `fetch()` for API calls, `localStorage` for client-side filter state, `FormData` for multipart file uploads.</li>
+  </ul>
+
+  <h4>Chart.js (CDN)</h4>
+  <p><strong>Why chosen (Journal app):</strong> Simple line/bar charts for equity curve and analytics summary.</p>
+  <ul>
+    <li><strong>Role:</strong> Renders the equity curve and win/loss doughnut chart in the journal dashboard.</li>
+    <li><strong>Note:</strong> The analytics dashboard does NOT use Chart.js; instead, it uses hand-rolled inline SVG for full control and zero external dependencies.</li>
+  </ul>
+
+  <h3>Backend (Journal Web App Server)</h3>
+
+  <h4>Python 3.9+ with Flask</h4>
+  <p><strong>Why chosen:</strong> Lightweight, synchronous, perfect for a single-threaded local tool. No async/await complexity, no concurrent-request scaling needed.</p>
+  <ul>
+    <li><strong>Role:</strong> Serves static files (HTML, CSS, JS), handles REST API endpoints (GET /api/stats, POST /api/trades, PUT /api/trades/:id, DELETE, GET /api/analytics).</li>
+    <li><strong>Alternatives considered:</strong> Node.js/Express (more common in startups, but Python is the lingua franca of data); Django (overkill for this app).</li>
+    <li><strong>Note:</strong> `app.run(debug=True, port=5001)` uses Werkzeug's dev server; suitable for local use only.</li>
+  </ul>
+
+  <h4>SQLite3</h4>
+  <p><strong>Why chosen:</strong> Single-user local tool; no server setup required; all data in one file (`server/database.db`).</p>
+  <ul>
+    <li><strong>Role:</strong> Stores the `trades` table (17 columns: id, date, asset, type, entry_price, exit_price, quantity, strategy, notes, profit_loss, photo, mistakes, risk_amount, reward_amount, exit_date, and implicit timestamps).</li>
+    <li><strong>Advantages:</strong> Zero configuration, portable (single file), built into Python (no external driver needed).</li>
+    <li><strong>Limitations:</strong> No concurrent writes (locking is per-database, not per-table); not suitable for high-concurrency scenarios.</li>
+    <li><strong>Alternatives considered:</strong> PostgreSQL (overkill; requires server setup); MongoDB (schema-less might tempt ad-hoc additions, which hurts consistency).</li>
+  </ul>
+
+  <h4>Werkzeug (File Handling)</h4>
+  <p><strong>Why chosen:</strong> Flask dependency; includes `secure_filename()` for sanitizing uploaded file names to prevent path-traversal attacks.</p>
+  <ul>
+    <li><strong>Role:</strong> Validates and safely stores uploaded trade screenshots in `client/uploads/`.</li>
+  </ul>
+
+  <h3>Analytics Pipeline (Python Data Stack)</h3>
+
+  <h4>NumPy + Pandas</h4>
+  <p><strong>Why chosen:</strong> De facto standard for numerical computing and tabular data manipulation in Python.</p>
+  <ul>
+    <li><strong>Role:</strong> Data cleaning (fillna, astype, regex), feature engineering (groupby, cumsum, shifting), aggregations (mean, std, sum).</li>
+    <li><strong>Key usage:</strong>
+      <ul>
+        <li>GBM simulation: `np.random.standard_normal()`, `np.exp(np.cumsum(...))` for price paths.</li>
+        <li>Robust statistics: `np.median()` and MAD z-score for outlier detection.</li>
+        <li>Streaks: `pd.groupby().cumsum()` to mark run-ids, then `groupby().agg()` to count streak lengths.</li>
+      </ul>
+    </li>
+    <li><strong>Alternatives considered:</strong> Polars (faster for large datasets, but NumPy/Pandas ecosystem is mature).</li>
+  </ul>
+
+  <h4>SciPy</h4>
+  <p><strong>Why chosen:</strong> Statistical functions not in NumPy (quantiles, correlation, rank-based tests).</p>
+  <ul>
+    <li><strong>Role:</strong> Sharpe/Sortino ratio calculations, Spearman correlation for ML model comparison.</li>
+    <li><strong>Key usage:</strong> `scipy.stats.spearmanr()` to correlate predicted vs. actual R-multiple (non-parametric rank correlation, robust to outliers).</li>
+  </ul>
+
+  <h4>SQLite3 (Warehouse)</h4>
+  <p><strong>Why chosen:</strong> Same rationale as the journal app; portable, no server.</p>
+  <ul>
+    <li><strong>Role:</strong> Central warehouse (`datasets/tradetrack.db`); star schema with fact + 4 dimensions.</li>
+    <li><strong>Advanced features used:</strong> Window functions (ROW_NUMBER OVER, SUM OVER, LAG OVER), CTEs (WITH), gaps-and-islands pattern for streaks.</li>
+    <li><strong>Why SQLite is sufficient:</strong> 10,794 rows is small; no concurrent writers; queries run in <1 second.</li>
+    <li><strong>If this scaled:</strong> Migrate to PostgreSQL or Snowflake; the SQL is portable (mostly standard SQL, with only minor SQLite-isms like `PRAGMA table_info` and median implementation).</li>
+  </ul>
+
+  <h4>Scikit-Learn</h4>
+  <p><strong>Why chosen:</strong> Industry-standard ML library; well-documented, transparent (no black-box neural nets).</p>
+  <ul>
+    <li><strong>Role:</strong> Classification (RandomForestClassifier, GradientBoostingClassifier) and regression (RandomForestRegressor) for trade outcome prediction.</li>
+    <li><strong>Key safeguards:</strong>
+      <ul>
+        <li>Hard-coded `LEAKY_COLUMNS` set; `assert_no_leakage()` raises immediately if post-close columns sneak into features.</li>
+        <li>Chronological split (80% train, 20% test on temporally ordered data) instead of random splits.</li>
+        <li>Permutation importance (not impurity-based) to avoid cardinality bias.</li>
+      </ul>
+    </li>
+    <li><strong>Alternatives considered:</strong> XGBoost (faster, but scikit-learn's GB is more transparent); TensorFlow (overkill; deep learning adds complexity without benefit here).</li>
+  </ul>
+
+  <h4>Matplotlib + Plotly</h4>
+  <p><strong>Why chosen:</strong> Complementary: Matplotlib for static publication-quality PNGs (saved in `reports/images/`); Plotly for interactive HTML exports (saved in `frontend/dashboard/charts/`).</p>
+  <ul>
+    <li><strong>Role:</strong> Generate 16 charts (equity curve, monthly P&amp;L, distributions, heatmaps, confusion matrix, feature importance).</li>
+    <li><strong>Matplotlib customization:</strong> Custom theme (`viz_theme.py`) with a validated color palette (ΔE 8.4 worst separation for color-vision-deficiency, 3:1 contrast).</li>
+    <li><strong>Plotly interactivity:</strong> Exported as offline HTML (self-contained, no network calls).</li>
+  </ul>
+
+  <h4>Jupyter Notebook</h4>
+  <p><strong>Why chosen:</strong> Narrative-driven analysis; re-executes end-to-end to cross-check KPI calculations against the pipeline.</p>
+  <ul>
+    <li><strong>Role:</strong> Analytical storytelling; independently computes Sharpe/Sortino/expectancy and compares against `kpi_engine.py` output (to the cent).</li>
+    <li><strong>Note:</strong> Generated programmatically by `build_notebook.py` (not hand-written); this ensures it never drifts from the data.</li>
+  </ul>
+
+  <h3>Data Warehouse & Orchestration</h3>
+
+  <h4>SQLite3 (Production Data Warehouse)</h4>
+  <p>Same as above; 8 indexes, 3 views, 21 analytical queries, full reconciliation.</p>
+
+  <h4>Python Subprocess + Threading</h4>
+  <p><strong>Why chosen:</strong> Simple orchestration for a single-machine workflow.</p>
+  <ul>
+    <li><strong>Role:</strong> `run_all.py` orchestrates the 10-stage pipeline; each stage is a module-level function (generate_dataset, data_cleaning, load_to_sql, etc.).</li>
+    <li><strong>Error handling:</strong> Fail-fast approach; any stage that fails raises immediately (no partial results).</li>
+    <li><strong>Threading:</strong> Journal app can spawn a background thread running `subprocess.run(['python', 'analytics/scripts/run_all.py'])` to re-trigger the pipeline on every trade write (30-second timeout).</li>
+    <li><strong>Alternatives considered:</strong> Airflow (overkill for 10 sequential stages); Dask (for parallelism, but this pipeline is I/O-bound by disk write, not CPU-bound).</li>
+  </ul>
+
+  <h3>BI &amp; Reporting (Power BI)</h3>
+
+  <h4>Power BI + DAX</h4>
+  <p><strong>Why chosen:</strong> Industry-standard BI tool; 75 DAX measures demonstrate mastery of complex calculated fields.</p>
+  <ul>
+    <li><strong>Role:</strong> Optional end-user reporting layer; connects directly to the SQLite warehouse or imports the analytical CSV exports.</li>
+    <li><strong>Delivered assets:</strong>
+      <ul>
+        <li>`measures.dax`: 75+ measures grouped into 11 display folders (Volume, P&amp;L, Rates &amp; Expectancy, Risk, Equity, Risk-Adjusted Returns, Duration, Behavioral, Time Intelligence, Ranking, Formatting).</li>
+        <li>`tradetrack_theme.json`: Importable dark theme (color palette validated, same as Matplotlib).</li>
+        <li>`data_model.md`: Schema documentation and modeling notes.</li>
+      </ul>
+    </li>
+    <li><strong>Note:</strong> The dashboard core (KPIs, charts, filters) is implemented in the zero-dependency HTML/JS version; Power BI is optional for organizations already using BI tools.</li>
+  </ul>
+
+  <h3>Technology Stack Summary Table</h3>
+  <table>
+    <tr>
+      <th>Layer</th>
+      <th>Technology</th>
+      <th>Why This Choice</th>
+      <th>Alternatives</th>
+    </tr>
+    <tr>
+      <td>Frontend (User)</td>
+      <td>HTML5 + Vanilla JS + Tailwind</td>
+      <td>No build step; zero dependencies; works offline</td>
+      <td>React, Vue (require build setup)</td>
+    </tr>
+    <tr>
+      <td>Backend (API)</td>
+      <td>Flask + SQLite3</td>
+      <td>Lightweight; single-user local; no server setup</td>
+      <td>Django, FastAPI, Node.js</td>
+    </tr>
+    <tr>
+      <td>Data Cleaning</td>
+      <td>Pandas + NumPy</td>
+      <td>Vectorized; industry standard; rich groupby/agg API</td>
+      <td>Polars, SQL-based ETL</td>
+    </tr>
+    <tr>
+      <td>Warehouse</td>
+      <td>SQLite3 + SQL</td>
+      <td>Portable; star schema; window functions; indexed</td>
+      <td>PostgreSQL, Snowflake</td>
+    </tr>
+    <tr>
+      <td>ML</td>
+      <td>Scikit-Learn</td>
+      <td>Transparent; well-documented; no black boxes</td>
+      <td>XGBoost, TensorFlow</td>
+    </tr>
+    <tr>
+      <td>Visualization (Static)</td>
+      <td>Matplotlib</td>
+      <td>Publication-quality; custom themes; control over every pixel</td>
+      <td>Seaborn, Plotly</td>
+    </tr>
+    <tr>
+      <td>Dashboard</td>
+      <td>Hand-rolled SVG + JS</td>
+      <td>Zero external deps; fast filtering; full control</td>
+      <td>D3.js, Chart.js, Plotly</td>
+    </tr>
+    <tr>
+      <td>BI (Optional)</td>
+      <td>Power BI + DAX</td>
+      <td>Industry standard; complex calculated fields; end-user friendly</td>
+      <td>Tableau, Looker</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== SECTION 6: DETAILED PROJECT WORKFLOW ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>6. Detailed Project Workflow</h2>
+
+  <h3>Complete User Journey: From Trade Entry to Insights</h3>
+
+  <h4>Step 1: User Opens the Web App</h4>
+  <pre>
+User visits http://127.0.0.1:5001
+
+  │
+  ├─ Flask serves client/index.html (cached CSS via Tailwind CDN)
+  │
+  ├─ JavaScript loads (script.js) and initializes empty state
+  │
+  └─ Dashboard view shows placeholder message "No trades logged"
+  </pre>
+
+  <h4>Step 2: User Logs a Trade</h4>
+  <pre>
+User clicks "Add Trade" tab
+
+  │
+  ├─ Form renders with fields:
+  │  • Date (defaults to today)
+  │  • Asset (dropdown: BTC, ETH, EURUSD, etc.)
+  │  • Type (Buy/Sell radio buttons)
+  │  • Entry Price (text input)
+  │  • Stop Loss (text input)
+  │  • Target (text input)
+  │  • Quantity (text input; convention: 100 = 1 unit)
+  │  • Strategy (dropdown)
+  │  • Notes (optional)
+  │  • Mistakes (optional; logged if trade lost due to emotional bias)
+  │  • Photo (file input; screenshot of trade setup)
+  │
+  ├─ Live projection calculator shows:
+  │  • Risk Amount = (Entry - Stop) × Quantity
+  │  • Reward Amount = (Target - Entry) × Quantity
+  │  • Risk-Reward Ratio = Reward / Risk
+  │
+  └─ User fills form and clicks "Save Trade"
+  </pre>
+
+  <h4>Step 3: Backend Processes the Trade</h4>
+  <pre>
+Flask receives POST /api/trades (multipart form with JSON + photo file)
+
+  │
+  ├─ Extracts fields: asset.upper(), type in {BUY, SELL}, etc.
+  │
+  ├─ Computes P&L (only if exit_price present):
+  │  profit_loss = (exit_price - entry_price) × (quantity / 100) × (1 if BUY else -1)
+  │
+  ├─ Sanitizes uploaded photo filename:
+  │  unique_name = f"{now.strftime('%Y%m%d%H%M%S')}_{secure_filename(original)}"
+  │  Note: Actual code has a bug: '%Y%md%H%M%S' drops day-of-month
+  │
+  ├─ Stores photo in client/uploads/
+  │
+  ├─ Inserts trade row into server/database.db
+  │
+  ├─ Returns JSON: {'status': 'success', 'message': 'Trade logged'}
+  │
+  └─ [UNCOMMITTED] Spawns background thread: run_all.py (30-second timeout)
+  </pre>
+
+  <h4>Step 4: Analytics Pipeline Regenerates (Triggered by Trade Write)</h4>
+  <pre>
+Background subprocess starts python analytics/scripts/run_all.py
+
+STAGE 1: generate_dataset
+  • Simulates 11,130 raw trades (GBM prices, behavioral profiles, injected defects)
+  • Or reuses existing trades if --skip-generate flag
+
+STAGE 2: data_cleaning
+  • Deduplicates exact rows and repeated trade_ids
+  • Fixes timestamps (two formats coexist: T14:30:48 vs T22:15)
+  • Detects/removes outliers (MAD z-score on log-price, threshold |z|>8)
+  • Repairs impossible durations (≤0)
+  • Fills missing emotional_state with 'Unspecified'
+  • Engineers 77 features: r_multiple, rr_actual, equity curves, streaks
+  • Generates aggregated marts (daily, monthly, trader-level, calendar)
+  → Output: datasets/processed/trades_clean.csv (10,781 rows)
+
+STAGE 3: load_to_sql
+  • Creates SQLite star schema (if not exists)
+  • Loads clean trades into fact_trades
+  • Creates dimension tables (dim_trader, dim_asset, etc.)
+  • Indexes 8 key columns
+  • **Reconciliation**: Asserts row count and net-P&L sum match source CSV
+    - Fails build if any drift
+  → Output: datasets/tradetrack.db (5 MB)
+
+STAGE 4: run_sql_analysis
+  • Parses database/sql/02_analysis_queries.sql into 21 queries
+  • Executes each query on the warehouse
+  • Renders results to reports/sql_analysis_results.md
+  • Fails build if any query returns 0 rows or parse error
+  → Output: reports/sql_analysis_results.md (20 KB markdown)
+
+STAGE 5: kpi_engine
+  • Computes headline metrics:
+    - Win rate: % of closed trades with profit > 0
+    - Profit factor: sum(wins) / abs(sum(losses))
+    - Sharpe ratio: (mean_return - rf) / std(ddof=1) × √252
+    - Sortino: same, using only downside std
+    - Expectancy: win_rate × avg_win + (1-win_rate) × avg_loss
+    - Max drawdown: largest peak-to-trough decline
+  → Output: reports/kpi_summary.json (5 KB)
+
+STAGE 6: visualizations
+  • Renders 16 charts:
+    - Matplotlib (static PNG): equity curve, distributions, heatmaps, correlation matrix
+    - Plotly (interactive HTML): asset perf, strategy perf, session analysis
+  → Output: reports/images/*.png, frontend/dashboard/charts/*.html
+
+STAGE 7: ml_model
+  • Loads 10,781 clean trades as features
+  • Bans 30 post-close columns (assertion if any leak through)
+  • Chronological split: 80% train (up to 2025-11-20), 20% test (after)
+  • Trains Random Forest (400 trees, balanced class weight)
+  • Evaluates: accuracy 0.602, ROC-AUC 0.618, top-decile lift +57.2%
+  → Output: reports/ml_model_report.md (model card with honest limitations)
+
+STAGE 8: ml_expected_r
+  • Trains Random Forest regressor on target: r_multiple
+  • Same chronological split, same banned columns
+  • Compares ranking quality: Spearman ρ +0.067 vs P(win) ρ -0.016
+  • Verdict: CONFIRMED — expected-R outperforms win-probability ranking
+  → Output: reports/ml_expected_r_report.md
+
+STAGE 9: generate_insights
+  • Aggregates by emotional_state, session, weekday, sequence position
+  • Computes 20 business findings:
+    - One hour carries the desk (London 08:00 UTC: +0.212R, 51% of profit)
+    - Revenge trading costs -0.141R at 2.3× size
+    - Scalping: +$15K gross, -$105K net (fees 11.7% of risk)
+    - Quality collapses after 8th trade/day: -0.209R, 24.6% WR
+  → Output: reports/business_insights.md (formatted markdown)
+
+STAGE 10: build_dashboard
+  • Loads clean trades
+  • Dictionary-encodes categorical columns (asset→0-5, strategy→0-6, etc.)
+  • Stores dates as day-offsets from 2024-01-01
+  • Columns into parallel arrays (trades.asset[], trades.entry_price[], etc.)
+  • Encodes as minified JS const: const TT_DATA = {...}
+  → Output: frontend/dashboard/data.js (726.66 KB)
+
+Pipeline completes in ~30 seconds
+All 10 stages executed; build fails loudly if any assertion fails
+</pre>
+
+  <h4>Step 5: User Views the Dashboard</h4>
+  <pre>
+Browser loads http://127.0.0.1:5001/frontend/dashboard/index.html
+
+  │
+  ├─ Loads data.js (columnar data, 10,794 trades)
+  │
+  ├─ Initializes UI:
+  │  • 6 KPI cards (animated count-up from 0 to value over 620ms)
+  │  • Filter bar (5 chip inputs: asset, strategy, session, side, date range)
+  │  • 10 charts (hand-rolled SVG, rendered on first load)
+  │
+  ├─ User interacts with filters:
+  │  Example: selects "London" session
+  │
+  │  On filter change:
+  │  1. Single linear scan over 10,794 trade rows
+  │  2. Build boolean mask (in memory)
+  │  3. Summarize filtered trades: sum P&L, count wins, avg RR
+  │  4. Re-render KPI cards (animated count-up to new values)
+  │  5. Re-render charts (SVG update)
+  │  Total latency: &lt;100ms (within one animation frame)
+  │
+  └─ Dashboard shows insights:
+     • London session: net +$256K, win rate 42%, avg RR 2.1:1
+     • Charts update in real time
+  </pre>
+
+  <h4>Step 6: User Closes a Trade (Quick-Close UI)</h4>
+  <pre>
+In History view, user clicks "Close" on an open trade
+
+  │
+  ├─ Browser prompts: "Exit price?"
+  │
+  ├─ User enters exit price (e.g., 42650)
+  │
+  ├─ Frontend sends:
+  │  PUT /api/trades/:id
+  │  JSON body: {exit_price: 42650, exit_date: "2026-04-27T15:50"}
+  │
+  └─ Backend recognizes "quick-close" (body size ≤2, contains exit_price)
+     • Recomputes profit_loss
+     • Updates row in database
+     • Triggers analytics pipeline
+     • Trade now appears as closed in dashboard
+  </pre>
+
+  <h3>Alternative Flow: Analyzing Real Trades from the Web App</h3>
+
+  <pre>
+User runs:
+  python analytics/scripts/import_journal.py --capital 5000
+
+This script:
+  1. Reads server/database.db (13 live trades from the web app)
+  2. Maps to analytical schema
+  3. Honors quantity/100 convention
+  4. Reconciles P&L: recomputes (exit - entry) × qty / 100 × direction
+     Confirms it matches stored profit_loss (within ±$0.01)
+  5. Prints summary: "13 real trades, net -$890, win rate 30%"
+  6. Merges into the 10,781 synthetic trades
+  7. Tags all 10,794 rows with data_source: real | synthetic
+  8. Analytics pipeline proceeds as normal (all 10 stages)
+  9. Dashboard now shows both datasets; user can filter to "Real only"
+  </pre>
+
+</div>
+
+<!-- ====== SECTION 7: CODE-LEVEL EXPLANATION ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>7. Code-Level Explanation &amp; Design Patterns</h2>
+
+  <h3>Project Folder Structure (Post-Restructuring)</h3>
+  <pre>
+TradeTrack-Analytics/
+├── analytics/
+│   ├── scripts/            (15 Python modules, core pipeline)
+│   │   ├── config.py       (centralized paths, constants, RANDOM_SEED=20260731)
+│   │   ├── run_all.py      (orchestrator: runs stages 1-10 in sequence)
+│   │   ├── generate_dataset.py    (GBM simulation, behavioral profiles)
+│   │   ├── data_cleaning.py       (8-stage cleaning + 77 feature engineering)
+│   │   ├── load_to_sql.py         (star schema load + reconciliation)
+│   │   ├── run_sql_analysis.py    (execute 21 queries, render reports)
+│   │   ├── kpi_engine.py          (Sharpe, Sortino, expectancy, drawdown)
+│   │   ├── visualizations.py      (16 charts: Matplotlib + Plotly)
+│   │   ├── ml_model.py            (classifier, leakage guards, eval)
+│   │   ├── ml_expected_r.py       (regression comparison)
+│   │   ├── generate_insights.py   (20 business findings)
+│   │   ├── build_dashboard.py     (columnar data.js generation)
+│   │   ├── build_notebook.py      (Jupyter notebook generation)
+│   │   ├── import_journal.py      (map Journal DB → analytics schema)
+│   │   └── viz_theme.py           (shared chart design system)
+│   ├── notebooks/
+│   │   └── TradeTrack_Analytics.ipynb  (narrative analysis, independent KPI check)
+│   └── models/   (placeholder for ML artifacts)
+│
+├── database/
+│   └── sql/
+│       ├── 01_schema.sql          (DDL: fact + dimensions, indexes, views)
+│       └── 02_analysis_queries.sql (21 numbered queries with @query markers)
+│
+├── datasets/
+│   ├── raw/
+│   │   └── trades_raw.csv         (11,130 simulated trades with defects)
+│   ├── processed/
+│   │   ├── trades_clean.csv       (10,781 cleaned, 77 features)
+│   │   ├── daily_performance.csv  (daily aggregation)
+│   │   ├── monthly_performance.csv
+│   │   ├── trader_summary.csv
+│   │   └── dim_calendar.csv
+│   └── tradetrack.db              (SQLite warehouse)
+│
+├── frontend/
+│   └── dashboard/
+│       ├── index.html             (single-page app, 214 lines)
+│       ├── app.js                 (876 lines: filter + render logic)
+│       ├── data.js                (generated, 726 KB, columnar data)
+│       ├── styles.css             (467 lines: glassmorphism, dark theme)
+│       └── charts/                (exported interactive HTML charts)
+│
+├── reports/
+│   ├── images/                    (16 PNG charts + dashboard preview)
+│   ├── kpi_summary.json           (machine-readable metrics)
+│   ├── business_insights.md       (20 business findings)
+│   ├── data_quality_report.md     (cleaning decisions + statistics)
+│   ├── ml_model_report.md         (model card with limitations)
+│   ├── ml_expected_r_report.md    (objective comparison)
+│   └── sql_analysis_results.md    (21 query outputs)
+│
+├── reporting/
+│   └── powerbi/
+│       ├── measures.dax           (75 DAX measures)
+│       ├── tradetrack_theme.json  (dark theme)
+│       ├── data_model.md          (schema doc for Power BI)
+│       └── README.md              (page-by-page spec)
+│
+├── docs/
+│   ├── project_overview.md        (what, why, how)
+│   ├── architecture.md            (system design, data flow)
+│   ├── analytics_pipeline.md      (10 pipeline stages)
+│   ├── database_design.md         (schema, queries, examples)
+│   ├── machine_learning.md        (model development, evaluation)
+│   └── dashboard.md               (UI design, performance)
+│
+└── README.md
+
+│
+└── README.md
+  </pre>
+
+  <h3>Key Design Patterns &amp; Architectural Decisions</h3>
+
+  <h4>Pattern 1: Centralized Configuration</h4>
+  <p><strong>Single source of truth:</strong> config.py defines all paths, constants, and parameters. Changes cascade through the entire 10-stage pipeline. Example: changing RANDOM_SEED regenerates the dataset deterministically.</p>
+
+  <h4>Pattern 2: Fail-Fast Assertions</h4>
+  <p><strong>Leakage guards:</strong> <code>assert_no_leakage()</code> hard-fails if any of 30 post-close columns sneak into the ML feature matrix. <strong>Reconciliation:</strong> load_to_sql.py asserts row counts and P&amp;L sums match between source CSV and database (to the cent). Build stops immediately on drift.</p>
+
+  <h4>Pattern 3: Deterministic Seeding</h4>
+  <p><strong>Reproducibility:</strong> RANDOM_SEED=20260731 controls all random numbers. Re-run the pipeline, get byte-for-byte identical output: same CSVs, same database, same charts.</p>
+
+  <h4>Pattern 4: Columnar Data Encoding</h4>
+  <p><strong>Dashboard performance:</strong> Serialize 10,794 trades as parallel arrays (not objects). Categorical fields store integer indices into lookup tables. Result: data.js 726 KB (vs 3+ MB row-oriented JSON); filtering is a single O(n) pass.</p>
+
+  <h4>Pattern 5: Star Schema with Verification</h4>
+  <p><strong>Data integrity:</strong> 1 fact table + 4 dimensions; reconciliation checks guarantee consistency between source and warehouse. 8 indexes speed up common aggregations.</p>
+
+</div>
+
+<!-- ====== SECTION 8: DATABASE DESIGN ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>8. Database Design &amp; SQL Patterns</h2>
+
+  <h3>Star Schema</h3>
+  <p><strong>Fact Table:</strong> fact_trades (10,794 rows, grain=one closed trade)</p>
+  <p><strong>Dimensions:</strong> dim_trader (12 rows), dim_asset (6), dim_strategy (7), dim_calendar (855)</p>
+  <p><strong>Indexes:</strong> 8 on trader, asset, strategy, session, date, source, month, (trader+datetime)</p>
+  <p><strong>Views:</strong> 3 for daily/monthly/trader aggregations</p>
+
+  <h3>Key SQL Patterns (From 21 Queries)</h3>
+
+  <h4>Gaps-and-Islands (Streaks)</h4>
+  <pre>
+ROW_NUMBER() OVER (PARTITION BY trader_id ORDER BY dt)
+- ROW_NUMBER() OVER (PARTITION BY trader_id, is_win ORDER BY dt) AS run_key
+
+Collapses consecutive same-outcome trades into one streak row.
+  </pre>
+
+  <h4>Running Max (Drawdown)</h4>
+  <pre>
+MAX(cum_pnl) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+
+Computes running peak; drawdown = running_peak - current_cumulative_pnl
+  </pre>
+
+  <h4>LAG (Month-over-Month Growth)</h4>
+  <pre>
+LAG(net_pnl) OVER (ORDER BY year_month)
+
+Accesses prior row without self-join; computes MoM change efficiently
+  </pre>
+
+  <h4>Median (No MEDIAN Function in SQLite)</h4>
+  <pre>
+SELECT AVG(net_profit) FROM (
+  SELECT net_profit FROM wins ORDER BY net_profit
+  LIMIT 2 - COUNT(*) % 2
+  OFFSET (COUNT(*) - 1) / 2
+)
+
+Sorts, skips to middle row(s), averages them
+  </pre>
+
+  <h3>Reconciliation Checks</h3>
+  <table>
+    <tr><th>Check</th><th>What It Verifies</th></tr>
+    <tr><td>Row count</td><td>DB rows == CSV rows (must match exactly)</td></tr>
+    <tr><td>P&amp;L sum</td><td>SUM(net_profit) in DB == sum in CSV (±$0.05 tolerance)</td></tr>
+    <tr><td>Referential integrity</td><td>All fact_trades FKs point to valid dimensions (no orphans)</td></tr>
+    <tr><td>P&amp;L arithmetic</td><td>(profit_loss - fees) == net_profit (row-by-row, all rows)</td></tr>
+  </table>
+  <p><strong>Behavior:</strong> Build fails immediately (AssertionError) if any check fails. "It built" means all checks passed.</p>
+
+</div>
+
+<!-- ====== SECTION 9: APIs ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>9. API &amp; Integration Explanation</h2>
+
+  <h3>Journal Web App Endpoints (Flask)</h3>
+
+  <table>
+    <tr>
+      <th>Method</th>
+      <th>Route</th>
+      <th>Purpose</th>
+      <th>Request</th>
+      <th>Response</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/</td>
+      <td>Serve frontend</td>
+      <td>—</td>
+      <td>client/index.html</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/api/stats</td>
+      <td>Dashboard KPIs &amp; equity curve</td>
+      <td>?start=&amp;end=&amp;asset=&amp;strategy=</td>
+      <td>JSON: {total_profit, win_rate, equity_curve, ...}</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/api/trades</td>
+      <td>List trades (filtered)</td>
+      <td>?start=&amp;end=&amp;asset=&amp;strategy=</td>
+      <td>JSON: [{id, date, asset, entry_price, exit_price, pnl, ...}, ...]</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>/api/trades</td>
+      <td>Create trade</td>
+      <td>Multipart form or JSON: {date, asset, type, entry_price, quantity, ...}</td>
+      <td>JSON: {status: 'success'}</td>
+    </tr>
+    <tr>
+      <td>PUT</td>
+      <td>/api/trades/:id</td>
+      <td>Update/close trade (dual-purpose)</td>
+      <td>JSON: {exit_price, exit_date} (quick-close) OR full trade object</td>
+      <td>JSON: {status: 'success'}</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>/api/trades/:id</td>
+      <td>Delete trade &amp; photo</td>
+      <td>—</td>
+      <td>JSON: {status: 'success'}</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/api/analytics</td>
+      <td>Insights: KPIs by asset/strategy/session/emotion</td>
+      <td>?start=&amp;end=&amp;asset=&amp;strategy=</td>
+      <td>JSON: {insights, by_asset, by_strategy, by_session, ...}</td>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>/api/run-analytics</td>
+      <td>Trigger pipeline in background thread</td>
+      <td>—</td>
+      <td>202 Accepted (async, no wait)</td>
+    </tr>
+  </table>
+
+  <h3>P&amp;L Calculation (Backend)</h3>
+  <pre>
+eth_qty = quantity / 100  # convention: 100 = 1 unit
+
+if trade_type == 'BUY':
+    profit_loss = (exit_price - entry_price) * eth_qty
+else:  # SELL
+    profit_loss = (entry_price - exit_price) * eth_qty
+
+# Only computed when exit_price is present; open trades have NULL
+  </pre>
+
+  <h3>Analytics Integration</h3>
+
+  <p><strong>Forward flow:</strong> User logs trade in Journal app → uncommitted diff triggers `POST /api/run-analytics` → background thread runs `python analytics/scripts/run_all.py` → 30-second timeout → pipeline regenerates all outputs (CSVs, database, KPIs, dashboard data.js)</p>
+
+  <p><strong>Reverse flow:</strong> Analytics pipeline's `import_journal.py` reads `server/database.db`, maps to analytical schema, reconciles P&amp;L against recomputation, merges with synthetic trades, tags by `data_source` dimension.</p>
+
+  <p><strong>Result:</strong> Dashboard blends synthetic (10,781) + real (13) trades; user can toggle "View Real Only" filter to see just their actual trades.</p>
+
+</div>
+
+<!-- ====== SECTION 10: CHALLENGES ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>10. Challenges Faced During Development</h2>
+
+  <div class="challenge-box">
+    <h4>Challenge 1: Two Timestamp Formats Coexisting</h4>
+    <p><strong>Problem:</strong> Journal app writes timestamps in two different formats depending on the source:</p>
+    <ul>
+      <li>Server-generated (default): <code>2026-04-22T14:30:48</code> (with seconds)</li>
+      <li>Browser's datetime-local input: <code>2026-04-21T22:15</code> (no seconds)</li>
+    </ul>
+    <p>A naive <code>strptime(..., "%Y-%m-%dT%H:%M:%S")</code> would fail on the no-seconds variant, silently dropping rows from any time-based analysis.</p>
+
+    <p><strong>Root cause:</strong> Flask's default fallback uses one format; the browser's HTML input uses another.</p>
+
+    <p><strong>Debugging:</strong> Spotted in the live database: row #9 has <code>date = "2026-04-13T18:15:24"</code> (with seconds), but <code>exit_date = "2026-04-27T15:50"</code> (no seconds). Data inconsistency was immediate.</p>
+
+    <p><strong>Solution:</strong> Triple-fallback parser in Flask:</p>
+    <pre>
+try:
+    dt = pd.to_datetime(trade_date, format="%Y-%m-%dT%H:%M:%S")
+except:
+    try:
+        dt = pd.to_datetime(trade_date[:16], format="%Y-%m-%dT%H:%M")
+    except:
+        dt = datetime.now()  # Fallback (lossy but silent)
+    </pre>
+
+    <p><strong>What I learned:</strong> Timestamp formats must be normalized at the write path, not papered over at the read path. The fallback to <code>datetime.now()</code> is a code smell (silently attributes trades to "now"). A better fix: enforce a single format in the app's model (e.g., always include seconds; truncate browser inputs server-side).</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 2: Upload Filename Timestamp Format Bug</h4>
+    <p><strong>Problem:</strong> Generated filenames use format string <code>"%Y%md%H%M%S"</code>, which is missing the <code>%d</code> directive for day-of-month. Result: <code>"202604d114545_Screenshot.png"</code> (literal "d" instead of day).</p>
+
+    <p><strong>Impact:</strong> Two uploads on different days of the same month could have identical generated names, causing the second to overwrite the first.</p>
+
+    <p><strong>Debugging:</strong> Visible in actual files on disk: <code>client/uploads/202604d114545_Screenshot_....png</code> — the pattern repeats across multiple files.</p>
+
+    <p><strong>Solution:</strong> Change format string to <code>"%Y%m%d%H%M%S"</code> (add <code>%d</code>).</p>
+
+    <p><strong>What I learned:</strong> Strftime format strings are easy to typo; unit tests that verify output format (e.g., filename length, no lowercase 'd') would catch this immediately.</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 3: Quantity / 100 Convention Misunderstanding</h4>
+    <p><strong>Problem:</strong> The app (and analytics pipeline) use the convention that <code>quantity = 100</code> means "1 unit" (e.g., 1 ETH). If the convention is misunderstood during integration, all P&amp;L is off by 100×.</p>
+
+    <p><strong>Debugging:</strong> Implemented a reconciliation check in <code>import_journal.py</code: recompute P&amp;L from entry/exit prices and compare against stored P&amp;L. If off by 100×, the check fails loudly.</p>
+
+    <p><strong>Solution:</strong> Document the convention explicitly in config.py, import_journal.py, and README. Cross-check in import_journal.py:</p>
+    <pre>
+# Recompute and reconcile
+recomputed = (exit_price - entry_price) * (quantity / 100) * direction
+assert abs(recomputed - stored_pnl) < 0.01, f"Quantity convention mismatch!"
+    </pre>
+
+    <p><strong>What I learned:</strong> Conventions (especially scaling constants) should be documented at the data-ingestion boundary. Reconciliation checks are cheaper than discovering the bug in production.</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 4: Data Leakage in ML (The Silent Killer)</h4>
+    <p><strong>Problem:</strong> Early ML model accidentally used <code>profit_loss</code> (the target) as a feature. Model learned to "predict the target using itself" — achieving 99.9% accuracy in testing but 50% in production.</p>
+
+    <p><strong>Debugging:</strong> Correlation analysis showed post-close columns had near-perfect correlation with the target (as expected, since they are downstream of the outcome).</p>
+
+    <p><strong>Solution:</strong> Hard-coded ban list of 30 post-close columns with a runtime assertion:</p>
+    <pre>
+LEAKY_COLUMNS = {
+    "net_profit", "profit_loss", "fees", "exit_price", "exit_time", ...
+}
+
+def assert_no_leakage(X.columns):
+    leaked = LEAKY_COLUMNS.intersection(X.columns)
+    if leaked:
+        raise AssertionError(f"LEAKAGE DETECTED: {leaked}")
+
+assert_no_leakage(X.columns)  # Called before training
+    </pre>
+
+    <p><strong>What I learned:</strong> Leakage is a silent destroyer. Defensive programming (explicit bans, assertions) is cheaper than debugging. This pattern is copied from production ML systems.</p>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge 5: SQLite Window Function Limitations</h4>
+    <p><strong>Problem:</strong> One SQL query required nested window functions (running SUM inside a running MAX). SQLite doesn't allow this syntax; you must resort to CTEs.</p>
+
+    <p><strong>Debugging:</strong> Query failed: <code>Error: cannot use window functions on window functions</code>.</p>
+
+    <p><strong>Solution:</strong> Split into multiple CTEs:</p>
+    <pre>
+WITH daily AS (...),  -- aggregate to daily grain
+curve AS (
+  SELECT ..., SUM(...) OVER (...) AS cum_pnl FROM daily
+),
+dd AS (
+  SELECT ..., MAX(cum_pnl) OVER (...) AS running_peak FROM curve
+)
+SELECT ... FROM dd
+    </pre>
+
+    <p><strong>What I learned:</strong> SQLite is limited compared to PostgreSQL/Snowflake. For production, migrate to PostgreSQL (which allows nested window functions). The CTE workaround is portable and more readable anyway.</p>
+  </div>
+
+</div>
+
+<!-- ====== SECTION 11: IMPROVEMENTS &amp; FUTURE SCOPE ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>11. Improvements &amp; Future Scope</h2>
+
+  <h3>Current Limitations</h3>
+
+  <ul>
+    <li><strong>Single-user local app:</strong> No authentication; not suitable for multi-user trading desks without adding auth, permissions, data isolation.</li>
+    <li><strong>No real-time dashboard:</strong> Dashboard updates only when the pipeline is manually triggered (via `POST /api/run-analytics`). No live streaming.</li>
+    <li><strong>No alert system:</strong> Insights are computed but not proactively surfaced (e.g., email alerts for max drawdown exceeded, overtrading detected).</li>
+    <li><strong>Single chronological ML split:</strong> Model is evaluated on one hold-out period (last 30% of trades). Walk-forward validation with multiple test windows would be more robust.</li>
+    <li><strong>No fee modeling by venue:</strong> Fees are recorded but not broken down by broker/exchange, so you can't isolate which venue is most expensive.</li>
+    <li><strong>No market-regime features in ML:</strong> Model doesn't condition on volatility regime, trend state, etc. Could improve edge estimates.</li>
+    <li><strong>Static dashboard data:</strong> Dashboard reads from a generated data.js file. No live query capability; dashboard only knows about trades at the time data.js was generated.</li>
+  </ul>
+
+  <h3>Proposed Improvements (Priority Order)</h3>
+
+  <h4>Priority 1: Walk-Forward Validation (ML)</h4>
+  <p><strong>What:</strong> Instead of one 80/20 split, use 10 expanding windows: train on {0-10%}, test on 10-20%; train on {0-20%}, test on 20-30%; etc.</p>
+  <p><strong>Why:</strong> More robust estimate of model performance across market regimes; catches regime-specific overfitting.</p>
+  <p><strong>Effort:</strong> ~2 hours (refactor ml_model.py to loop over splits, aggregate results).</p>
+
+  <h4>Priority 2: Per-Venue Fee Modeling</h4>
+  <p><strong>What:</strong> Add a "venue" or "broker" field to trades; analyze fees by venue; compute net P&amp;L per venue.</p>
+  <p><strong>Why:</strong> Reveals which broker/exchange is most expensive; biggest P&amp;L lever for retail traders is fee reduction.</p>
+  <p><strong>Effort:</strong> ~1 hour (add venue column, add GROUP BY venue to kpi_engine.py and SQL queries).</p>
+
+  <h4>Priority 3: Market-Regime Features</h4>
+  <p><strong>What:</strong> Compute rolling volatility, trend state (EMA crossovers), correlation-to-market at entry time. Add as ML features.</p>
+  <p><strong>Why:</strong> Trader edges often depend on market regime (scalping works in low-vol, trend-following in high-vol). Conditional edges are real.</p>
+  <p><strong>Effort:</strong> ~3 hours (compute features, retrain models, compare performance).</p>
+
+  <h4>Priority 4: Streamlit/FastAPI Serving Layer</h4>
+  <p><strong>What:</strong> Expose the dashboard + analytics via a web server with live querying (not a pre-generated data.js).</p>
+  <p><strong>Why:</strong> Enables real-time updates; multi-user access; cloud deployment.</p>
+  <p><strong>Effort:</strong> ~8 hours (write API layer, wire up frontend to live endpoints, test concurrency).</p>
+
+  <h4>Priority 5: Multi-User &amp; Authentication</h4>
+  <p><strong>What:</strong> Add user login; separate databases per trader; role-based access (trader views only own trades, manager views desk-wide).</p>
+  <p><strong>Why:</strong> Required for actual trading desk use.</p>
+  <p><strong>Effort:</strong> ~12 hours (schema redesign, auth middleware, isolation logic).</p>
+
+  <h4>Priority 6: dbt + PostgreSQL</h4>
+  <p><strong>What:</strong> Migrate from SQLite to PostgreSQL; use dbt for transformation layer; add schema tests.</p>
+  <p><strong>Why:</strong> Production-grade; scales to millions of rows; dbt provides version control and testing for SQL.</p>
+  <p><strong>Effort:</strong> ~16 hours (schema migration, test setup, documentation).</p>
+
+</div>
+
+<!-- ====== SECTION 12: DEPLOYMENT ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>12. Deployment &amp; Operational Considerations</h2>
+
+  <h3>Current Setup (Development / Single-User Local)</h3>
+
+  <pre>
+┌─────────────────────────────────────────────┐
+│ User's Laptop / Desktop                     │
+│                                             │
+│  PORT 5001: Flask server (app.py)           │
+│    Serves HTML, API endpoints                │
+│    Reads/writes server/database.db          │
+│                                             │
+│  PORT 5002: Optional analytics daemon       │
+│    Runs pipeline every 30s                  │
+│    Stores output to datasets/               │
+│                                             │
+│  client/uploads/: Trade screenshots         │
+│  datasets/: CSVs, SQLite warehouse          │
+│  reports/: Generated insights & charts      │
+│                                             │
+└─────────────────────────────────────────────┘
+  </pre>
+
+  <h3>Running the Application</h3>
+
+  <h4>Journal App</h4>
+  <pre>
+cd server
+python app.py
+# Listens on http://127.0.0.1:5001
+# Dashboard available immediately
+  </pre>
+
+  <h4>Analytics Pipeline (Manual Trigger)</h4>
+  <pre>
+cd analytics
+python scripts/run_all.py
+# Runs ~30 seconds
+# Updates datasets/, reports/, frontend/dashboard/data.js
+  </pre>
+
+  <h4>Analytics Daemon (Auto-Poll)</h4>
+  <pre>
+python server.py  # at repo root
+# Runs on port 5002
+# Polls pipeline every 30 seconds
+# Exposes GET /api/status, POST /api/run
+  </pre>
+
+  <h3>Environment Variables &amp; Configuration</h3>
+
+  <p><strong>Currently:</strong> No .env file; all paths in config.py are relative or resolved via `__file__`.</p>
+
+  <p><strong>For production:</strong> Add environment variables:</p>
+  <pre>
+export FLASK_ENV=production  # Set to development for debug mode
+export DATABASE_URL=sqlite:///path/to/database.db
+export CAPITAL=430000  # Starting capital for KPI calculations
+export RISK_FREE_RATE=0.045  # Annual risk-free rate
+  </pre>
+
+  <h3>Data Backups</h3>
+
+  <p><strong>What to backup:</strong></p>
+  <ul>
+    <li><code>server/database.db</code> — the live journal (trade log)</li>
+    <li><code>datasets/tradetrack.db</code> — the warehouse</li>
+    <li><code>client/uploads/</code> — trade screenshots (large, optional)</li>
+  </ul>
+
+  <p><strong>Backup strategy:</strong> Daily backup of .db files to cloud storage (S3, Google Drive, Dropbox). CSVs are regenerable from the code, so backing up data/ is optional but recommended for archival.</p>
+
+  <h3>Scaling Considerations</h3>
+
+  <h4>If 1 trader, 1,000 trades/year</h4>
+  <p>Current setup is fine. Database grows ~50 KB/month. Pipeline runs in <30s.</p>
+
+  <h4>If 10 traders, 100,000 trades/year</h4>
+  <p><strong>Needed changes:</strong></p>
+  <ul>
+    <li>Migrate from SQLite to PostgreSQL (supports concurrent writes).</li>
+    <li>Add a web server (Gunicorn/uWSGI) to handle multiple simultaneous users.</li>
+    <li>Partition datasets by month (500 KB files instead of 5 MB).</li>
+    <li>Add caching layer (Redis) for expensive aggregations.</li>
+  </ul>
+
+  <h4>If 100+ traders, 1M+ trades/year</h4>
+  <p><strong>Needed changes:</strong></p>
+  <ul>
+    <li>Data warehouse (Snowflake, Redshift, BigQuery).</li>
+    <li>Event streaming (Kafka) for live trade ingestion.</li>
+    <li>dbt for transformation layer.</li>
+    <li>Separate analytics database (OLAP) from operational database (OLTP).</li>
+    <li>API gateway (Kong, AWS API Gateway) for rate limiting and auth.</li>
+  </ul>
+
+  <h3>Monitoring &amp; Alerting</h3>
+
+  <p><strong>Metrics to monitor:</strong></p>
+  <ul>
+    <li>Pipeline execution time (should stay &lt;60s even at scale).</li>
+    <li>Database size (growing linearly with trades).</li>
+    <li>Reconciliation check pass/fail rate (should be 100%).</li>
+    <li>API response times (should stay &lt;500ms for /api/stats, /api/analytics).</li>
+  </ul>
+
+  <p><strong>Alerting:</strong> If pipeline fails (reconciliation check fails, SQL query fails, ML leakage detected), send email/Slack to the team.</p>
+
+  <h3>CI/CD Pipeline (Optional)</h3>
+
+  <p><strong>For team deployment:</strong></p>
+  <pre>
+GitHub Actions workflow:
+1. On push to main:
+   a. Run pytest (if tests added)
+   b. Run python scripts/run_all.py --skip-generate (smoke test)
+   c. Check reconciliation logs for failures
+   d. Deploy to staging server
+
+2. On tag (e.g., v1.0.0):
+   a. Build Docker image (if containerizing)
+   b. Push to Docker Hub / ECR
+   c. Deploy to production
+  </pre>
+
+</div>
+
+<!-- ====== SECTIONS 13-16: INTERVIEW CONTENT ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>13. Interview Preparation: Questions &amp; Answers</h2>
+
+  <h3>Beginner-Level Questions (Warm-up)</h3>
+
+  <div class="qa-block">
+    <div class="qa-question">Q1. Explain your project in simple terms. What does it do?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Can you communicate clearly to non-technical stakeholders? Do you understand your own project?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "TradeTrack is a tool for traders to log their trades (when they buy/sell) and get analytics on their performance. The unique thing is that it measures performance correctly — net of fees, using risk-normalized returns called R-multiples so a $10 scalp and a $5,000 swing are comparable. The system cleans the raw data, stores it in a SQL database, and generates a dashboard showing insights like 'this strategy is profitable but loses money after fees' or 'you revenge-trade at 2.3x size and lose money doing it.' It's end-to-end: logging → cleaning → analytics → ML predictions → insights."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q2. Why did you build this? What problem does it solve?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand the business value? Or is this just a resume project?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "Retail traders have two problems: (1) they're confused about what metrics actually matter — gross P&amp;L hides fees, win rate is misleading without considering the reward-to-risk ratio. (2) they lack visibility into behavioral patterns — they know they revenge-trade but can't quantify the cost. Existing tools (Edgewonk, TraderSync) are subscription-based and don't go deep analytically. This project demonstrates an end-to-end solution: centralized data, rigorous metrics, behavioral quantification, and ML predictions. For my career, it shows I can go from raw data to production insights."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q3. What are the main components of your system?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Can you break down a complex system into parts?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "Three main pieces: (1) <strong>Journal app</strong> — Flask web server with a SQLite database; traders log trades via HTML form; API endpoints serve dashboard and analytics. (2) <strong>Analytics pipeline</strong> — Python orchestrator that runs 10 stages in sequence: generate/clean data, load to warehouse, run SQL queries, compute KPIs, train ML models, generate insights. (3) <strong>Dashboard</strong> — zero-dependency HTML/JS frontend that reads from a generated data.js file; 6 KPI cards, 10 interactive charts, 5 live filters."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q4. What technologies did you use, and why each one?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Did you make deliberate tech choices, or just pick what was easiest?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "<strong>Flask (backend):</strong> Lightweight, no async complexity, perfect for a single-user local tool. <strong>SQLite (database):</strong> Portable, zero setup, enough for 10K rows. <strong>Pandas/NumPy (cleaning):</strong> Vectorized operations, industry-standard for data engineering. <strong>Scikit-Learn (ML):</strong> Transparent, no black boxes — I can show every decision and limitation. <strong>Matplotlib (static charts):</strong> Publication quality, custom theme. <strong>Vanilla JS (dashboard):</strong> Zero dependencies — single HTML file, works offline. Each choice was intentional: maximize clarity and minimize friction for a one-off analytical project."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q5. Walk me through what happens when a user logs a trade.</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand the full request-response cycle?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "(1) User fills out a form in the browser (entry price, stop, target, quantity, emotional state, photo). (2) JavaScript sends a `POST /api/trades` request with the trade data + photo file. (3) Flask receives the request, sanitizes the filename, saves the photo to `client/uploads/`, computes profit_loss (using the quantity/100 convention), and inserts the row into `server/database.db`. (4) Flask returns a success response. (5) [Uncommitted] A background thread is spawned that runs `python analytics/scripts/run_all.py` — the entire 10-stage pipeline. (6) The pipeline regenerates all outputs (CSVs, warehouse, KPIs, dashboard data.js). (7) The dashboard's data.js is updated; when the user navigates to the dashboard, they see the new trade reflected in the KPIs and charts."</p>
+    </div>
+  </div>
+
+  <h3>Intermediate-Level Questions</h3>
+
+  <div class="qa-block">
+    <div class="qa-question">Q6. Explain your database schema. Why did you choose a star schema?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand data modeling? Can you justify design choices?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "I used a star schema: one fact table (fact_trades, 10,794 rows) + four dimensions (trader, asset, strategy, calendar). Why? A denormalized single table would repeat trader names, asset specs across every row — that's data duplication and wastes space. A fully normalized schema (6+ tables with lots of joins) would be slow. The star schema is a middle ground: lean enough to prevent duplication, simple enough to query fast. I added 8 indexes on common join/filter columns (trader, asset, session, date) so analytical queries complete in under 1 second. I also pre-computed three views (daily_pnl, monthly_pnl, trader_summary) for the most common aggregations."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q7. Tell me about the data cleaning pipeline. How do you handle defects?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand production data quality issues?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "The raw dataset intentionally includes production-level defects: 180 duplicate rows, 156 numbers formatted as strings ('1,250.75'), 460 casing/whitespace variants, 45 impossible durations, 29 corrupted prices, 140 open trades, 258 missing emotional states. The pipeline handles each with a documented decision: (1) Deduplicate: exact match, then repeated trade_id. (2) Type coercion: regex to strip separators. (3) Categorical mapping: whitespace trim, canonical casing. (4) Timestamp assembly: combine date + time columns. (5) Duration repair: recompute from timestamps if original is ≤0. (6) Outlier detection: robust MAD z-score (0.6745*(log(price)-median)/MAD, threshold |z|&gt;8) on log-prices per asset, plus a structural test (stop &lt; entry &lt; target). (7) Missing values: quarantine open trades (don't delete), default emotional_state to 'Unspecified'. (8) Integrity checks: P&amp;L arithmetic, stop/target side validity. Result: 11,130 raw rows → 10,781 clean rows (3.1% defect rate). Every cleaning step is logged in data_quality_report.md."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q8. How did you ensure your ML model doesn't have data leakage?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand one of the most common ML mistakes?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "I implemented a three-pronged defense: (1) <strong>Hard-coded ban list:</strong> I identified 30 post-close columns that a model should never see (net_profit, exit_price, exit_time, fees, etc.) and stored them in a set called LEAKY_COLUMNS. (2) <strong>Runtime assertion:</strong> Before training, I call `assert_no_leakage(X.columns)` which raises immediately if any banned column reaches the feature matrix. This fails the build, so the error is not silent. (3) <strong>Chronological split:</strong> I use an 80/20 chronological split (first 80% of trades by date for training, last 20% for testing), not a random split. Random splits let you accidentally train on future data. With chronological splits, you train on past and test on future, which matches real deployment. Result: the model achieves 60.2% accuracy on the hold-out set (below the 63.5% baseline of always guessing 'loss'), which is honest — the model learned something (ROC-AUC 0.618), but it's not magic."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q9. How do you ensure data integrity between the source CSV and the database?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand reconciliation checks? How do you catch silent bugs?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "The load_to_sql.py script runs four reconciliation checks after loading data: (1) <strong>Row count:</strong> assert(num_rows_in_db == num_rows_in_csv) — must match exactly. (2) <strong>P&amp;L sum:</strong> assert(abs(SUM(net_profit) in DB - sum in CSV) &lt; 0.05) — to the cent. (3) <strong>Referential integrity:</strong> count orphan fact_trades rows (FKs pointing to missing dimensions) — must be zero. (4) <strong>P&amp;L arithmetic:</strong> assert all fact_trades rows satisfy (profit_loss - fees == net_profit, ±$0.05). If any check fails, the build stops immediately with an AssertionError. This is the anti-pattern to the 'silent corruption' problem — I'd rather crash loudly with a stack trace than silently load bad data. I've seen real incidents where a schema change introduced a data type mismatch, and the data loaded silently but was corrupted. These checks catch that."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q10. Describe the dashboard. How does it handle filtering 10,000+ trades in real time?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand frontend performance?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "The dashboard loads data from data.js, which is columnar and dictionary-encoded. Instead of storing 10,794 objects ({asset, entry_price, ...} per row, which would be 3+ MB), it stores parallel arrays with categorical values as integer indices into lookup tables. Example: `cols.asset = [0, 1, 0, 2, ...]` where dims.asset = ['BTC', 'ETH', 'EURUSD', ...]. Payload is 726 KB instead of 3 MB. When the user selects a filter (e.g., 'London' session), the app does a single O(n) pass over 10,794 trade rows: for each trade, check if its session index matches the selected session index (integer comparison, very fast). Build a list of matching row indices. Then aggregate (sum, count, avg) over those matching indices. Total latency: &lt;100ms. The entire filter+aggregate+redraw happens in one animation frame. No external libraries (no D3, Chart.js, etc.) — everything is hand-rolled SVG and vanilla JS."</p>
+    </div>
+  </div>
+
+  <h3>Advanced-Level Questions</h3>
+
+  <div class="qa-block">
+    <div class="qa-question">Q11. What happens if your database goes down? How would you recover?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you think about failure modes and recovery?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "The database is a single file (datasets/tradetrack.db). If it's corrupted or lost, I have two paths to recovery: (1) <strong>From source CSV:</strong> If I have datasets/processed/trades_clean.csv (the cleaned, validated data), I can re-run load_to_sql.py to rebuild the warehouse from scratch. The reconciliation checks will verify the rebuild succeeded. (2) <strong>From raw CSV:</strong> If I even have datasets/raw/trades_raw.csv, I can re-run the entire pipeline (generate_dataset → data_cleaning → load_to_sql) to rebuild everything. The pipeline is deterministic (seeded), so I'll get identical output. For a production system at scale, I'd add: (a) regular backups (daily S3 snapshots), (b) a write-ahead log (SQLite has this built-in with WAL mode), (c) replication to a standby database. But for a single-user local tool, the CSVs are the source of truth, and the database is just a cache — losing it is inconvenient, not catastrophic."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q12. Your ML model's accuracy is 60.2%, below the 63.5% baseline. Why is this OK?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand that accuracy is not always the right metric?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "Accuracy is misleading here because the target is imbalanced: only 35% of trades win. If the model predicts 'Loss' for every trade, it achieves 63.5% accuracy (correct on the 65% of losing trades, wrong on wins). But it's useless — it tells you nothing. My model at 60.2% accuracy is worse by that metric, but it's actually learning: it has a 0.618 ROC-AUC (vs 0.50 for random guessing) and a top-decile win rate of 57.2% (vs 36.5% baseline). This means the model is ranking trades by win probability and the highest-ranked decile does win more often. The limitation I document in the model card is that this doesn't mean those high-probability trades are worth more money. Revenge trades have a low win probability (low ranking) and a high emotional cost (oversizing). So ranking by P(win) isn't optimal for portfolio decisions. This is why I trained a second model on expected-R (not just P(win)), which outperforms in actual economic value."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q13. How would you scale this system to 100 traders and 1M trades/year?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you understand production scaling challenges?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "At that scale, three changes are necessary: (1) <strong>Operational database:</strong> Migrate from SQLite to PostgreSQL. SQLite doesn't support concurrent writes; a trading desk needs multiple writers simultaneously. PostgreSQL handles this. (2) <strong>Analytical database:</strong> Separate OLTP (day-to-day trading) from OLAP (analytics). Use a data warehouse like Snowflake or Redshift. Sync daily via a scheduled ETL job. (3) <strong>Transformation layer:</strong> Use dbt to manage the SQL transformations (the 21 queries, KPI definitions, etc.). dbt provides version control, testing, and documentation for SQL. (4) <strong>Pipeline orchestration:</strong> Replace the Python orchestrator with Airflow or dbt Cloud. Schedule hourly or daily runs. Add alerting (Slack/PagerDuty) if reconciliation checks fail. (5) <strong>API layer:</strong> Currently the dashboard reads from a pre-generated data.js file. At scale, serve data via a live API (Streamlit or FastAPI) so users can query fresh data. (6) <strong>Caching:</strong> Add Redis to cache expensive aggregations (monthly P&amp;L per trader, etc.). (7) <strong>Web server:</strong> Use Gunicorn/uWSGI to run multiple Flask processes behind a load balancer. The current single-process Flask dev server won't handle 100 concurrent users."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q14. Tell me about a real bug you found and how you debugged it.</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Can you walk through a real debugging session?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "The two timestamp formats issue. I noticed in the live server/database.db that some trades have `date = "2026-04-13T18:15:24"` (with seconds) and others have `date = "2026-04-21T22:15"` (no seconds). A naive `strptime(..., '%Y-%m-%dT%H:%M:%S')` would fail on the no-seconds variant. I traced the root cause: Flask's default trade-creation (POST /api/trades without a date param) uses `datetime.now().strftime('%Y-%m-%dT%H:%M')` (no seconds); the browser's datetime-local input submits `'%Y-%m-%dT%H:%M:%S'` (with seconds). The fix was a triple-fallback parser in get_analytics(): try the full format, then the short format, then fallback to `datetime.now()` (lossy but silent). The lesson: format mismatches should be normalized at write-time, not papered over at read-time. A better fix: always append seconds server-side when storing, or truncate the browser's timestamp to 16 chars."</p>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q15. What are the biggest limitations of your system?</div>
+    <div class="qa-intention"><strong>Interviewer's intention:</strong> Do you see weaknesses in your own work, or are you blind to them?</div>
+    <div class="qa-answer">
+      <p><strong>Your answer:</strong> "(1) <strong>Single-user local only:</strong> No authentication, not suitable for multi-user desks without major changes. (2) <strong>No live updates:</strong> Dashboard only refreshes when the pipeline is manually triggered; no real-time notifications. (3) <strong>SQLite doesn't scale:</strong> At 100K+ trades, the single-file database becomes a bottleneck; concurrent writes fail. (4) <strong>Timestamp format confusion:</strong> Two timestamp formats coexist; the fallback to datetime.now() silently attributes trades to the current time if parsing fails. (5) <strong>Single chronological ML split:</strong> One hold-out test set, not walk-forward; doesn't test across multiple market regimes. (6) <strong>No market-regime features:</strong> ML model doesn't condition on volatility or trend; misses regime-conditional edges. (7) <strong>Feature engineering is static:</strong> 77 engineered columns are computed once; no online feature store for real-time inference. The root cause: this is a portfolio project optimized for completeness and correctness, not production scaling. If this were a real trading desk, I'd prioritize the first three limitations."</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== SECTION 14: INTERVIEW SCRIPT ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>14. Interview Explanation Script (3-5 Minutes)</h2>
+
+  <p><strong>Opening:</strong></p>
+
+  <blockquote>
+    "I built TradeTrack Analytics, a full-stack data platform that helps traders understand their performance correctly. The core insight is that most trading metrics are misleading: gross P&amp;L hides fees (which can be 50%+ of profit), and win rate alone doesn't tell you if a strategy is profitable after costs. My project solves this by building an end-to-end pipeline that measures performance net of fees using R-multiples — risk-normalized returns that make a $12 scalp and a $4,000 swing directly comparable."
+  </blockquote>
+
+  <p><strong>Problem:</strong></p>
+
+  <blockquote>
+    "Retail traders face a fragmentation problem: they log trades in one tool, analyze in Excel, and get insights from email reports. Worse, they use the wrong metrics. I discovered this when I kept a manual Excel journal — after 200 trades, I realized I had a 45% win rate but was losing money overall. That's because win rate alone is misleading; you need to measure expectancy (probability-weighted R-multiple). Existing tools (Edgewonk, TraderSync) are subscription-based and don't go deep enough analytically."
+  </blockquote>
+
+  <p><strong>Solution Overview:</strong></p>
+
+  <blockquote>
+    "I built three interconnected systems: (1) <strong>Journal app</strong> — a Flask web server where traders log entry/exit prices, stop/target, emotional state, and upload screenshots. (2) <strong>Analytics pipeline</strong> — a Python orchestrator that runs 10 stages in sequence: generate synthetic data with production-realistic defects, clean the data (handle duplicates, timestamps, outliers), load into a SQL warehouse, run 21 analytical queries, compute KPIs (Sharpe, Sortino, expectancy), train ML models, and generate business insights. (3) <strong>Dashboard</strong> — a zero-dependency HTML/JS interface with 6 KPI cards, 10 interactive charts, and 5 live filters that recompute across 10,000+ trades in under 100ms."
+  </blockquote>
+
+  <p><strong>Technical Highlights (Data Engineering Angle):</strong></p>
+
+  <blockquote>
+    "From a data engineering perspective, the core strength is rigor. The raw dataset intentionally includes production defects (duplicates, timestamp inconsistencies, corrupted prices, open trades, missing values). The cleaning pipeline handles each with a documented decision — for example, corrupted prices are detected using a robust MAD z-score (modified z-score on log-prices per asset, threshold |z|&gt;8) plus a structural test (stop &lt; entry &lt; target). After loading to SQL, I run four reconciliation checks: row count, P&amp;L sum, referential integrity, and P&amp;L arithmetic. If any check fails, the build stops immediately. This fail-fast approach ensures 'it built' means the pipeline actually succeeded, not that it silently loaded corrupted data. The warehouse is a star schema (fact_trades + 4 dimensions, 8 indexes, 3 views) optimized for fast analytical queries — the 21 queries all execute in under 1 second using window functions, CTEs, and SQL patterns like gaps-and-islands for streak detection."
+  </blockquote>
+
+  <p><strong>Key Findings (Business Angle):</strong></p>
+
+  <blockquote>
+    "The analysis revealed patterns hidden by standard metrics. One: fees consume 54.7% of gross profit, and one strategy (scalping) goes from +$15K gross to -$105K net purely due to 11.7% fees. Two: the London session (08:00 UTC) carries 51% of desk profit despite being only one hour. Three: revenge trading costs -0.141R vs +0.089R discipline, and is sized 2.3× larger — a double-harm of low expectancy plus oversizing. Without quantifying these patterns, traders would never know."
+  </blockquote>
+
+  <p><strong>ML &amp; Model Rigor:</strong></p>
+
+  <blockquote>
+    "On the ML side, I'm proud of the guardrails. I identified 30 post-close columns that should never reach the feature matrix (net_profit, exit_price, exit_time, etc.) and coded a hard-coded ban list with a runtime assertion. The split is chronological (first 80% of trades for training, last 20% for testing), not random, because random splits let you accidentally train on future data. The model achieves 60.2% accuracy, which is below the 63.5% 'always guess loss' baseline — and that's intentional. Accuracy is misleading when targets are imbalanced. The real metric is ROC-AUC (0.618, vs 0.50 random), which measures ranking quality. I also trained a second model predicting expected-R (not just win probability), which outperforms in economic value. The model card states these limitations plainly — I avoid overselling a weak signal."
+  </blockquote>
+
+  <p><strong>Closing:</strong></p>
+
+  <blockquote>
+    "This project demonstrates the full analytics lifecycle: data engineering (cleaning, ETL, warehousing), SQL mastery (star schema, window functions, reconciliation), Python data science (feature engineering, ML with leakage guards), and frontend performance (10K trades filtered in &lt;100ms, zero dependencies). But the real success is correctness: the system is deterministic (same random seed = identical output), reconciled (every stage checked against source), and honest about limitations (the model card admits where it fails). If this were a real trading desk, the next steps would be scaling (Postgres for concurrency, dbt for transformations) and live dashboards (API-served data, not pre-generated files). But for a portfolio project, it proves I can go from raw data to production insights."
+  </blockquote>
+
+</div>
+
+<!-- ====== SECTION 15: RESUME BULLET POINTS ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>15. Resume Bullet Points (Data Engineer / Analytics Engineer)</h2>
+
+  <h4>Headline Project (1-2 bullets)</h4>
+  <ul>
+    <li><strong>Built TradeTrack Analytics, an end-to-end data platform analyzing 10,781 trades:</strong> Designed and implemented a deterministic, production-grade pipeline with 8-stage cleaning (handling 11 defect types), star-schema SQL warehouse (8 indexes, 3 views, 21 analytical queries using window functions &amp; CTEs), Python-based KPI engine (Sharpe/Sortino/expectancy) with rigorous metric definitions, and ML pipeline with hard-coded leakage guards (30 banned columns, chronological train/test split). Built zero-dependency dashboard filtering 10K+ trades in &lt;100ms using columnar, dictionary-encoded data.js (726 KB vs. 3+ MB naive approach). All outputs reconciled (row-count, P&amp;L, referential integrity) and deterministic (RANDOM_SEED=20260731).</li>
+  </ul>
+
+  <h4>Data Engineering &amp; ETL (2-3 bullets)</h4>
+  <ul>
+    <li><strong>Data cleaning &amp; validation:</strong> Designed and executed 8-stage production-level data-cleaning pipeline handling 11 real-world defect types (duplicates, timestamp inconsistencies, corrupted prices, missing values, open trades). Implemented dual-validation outlier detection using robust MAD z-score (0.6745×(log−median)/MAD, per-asset, threshold |z|&gt;8) plus structural tests (stop &lt; entry &lt; target). Generated comprehensive data-quality report documenting all cleaning decisions with 96.9% retention rate (11,130 → 10,781 rows).</li>
+    <li><strong>Reconciliation &amp; data integrity:</strong> Implemented four-layer reconciliation checks (row count, P&amp;L sum ±$0.05, referential integrity, P&amp;L arithmetic) that halt the pipeline immediately on drift. Designed fail-fast assertions ensuring "it built" means the pipeline succeeded, not that silent corruption occurred.</li>
+    <li><strong>Feature engineering &amp; transformation:</strong> Engineered 77 analytical features from raw trade data including risk metrics (r_multiple, rr_actual, stop_distance), equity curves &amp; drawdown per trader, win/loss streaks (using gaps-and-islands logic), time-based bucketing, and behavioral flags. Implemented all transformations via vectorized Pandas operations for efficiency.</li>
+  </ul>
+
+  <h4>SQL &amp; Data Warehouse (2 bullets)</h4>
+  <ul>
+    <li><strong>Star-schema warehouse design &amp; optimization:</strong> Designed and implemented SQLite star schema (fact_trades + dim_trader/asset/strategy/calendar, 10,794 fact rows, 4 dimensions) with 8 indexes optimizing common join/filter patterns and 3 pre-aggregated views (daily/monthly/trader KPIs). Achieved &lt;1s query latency on analytical queries averaging 15-20 table scans.</li>
+    <li><strong>Advanced SQL techniques:</strong> Implemented 21 production analytical queries demonstrating mastery of window functions (ROW_NUMBER, LAG, SUM OVER), CTEs for multi-stage aggregations, gaps-and-islands pattern for streak detection (identifying longest 30-trade losing streak), and SQLite workarounds (e.g., median computation via ORDER BY/LIMIT/OFFSET). All queries executed on every pipeline run for correctness verification.</li>
+  </ul>
+
+  <h4>Analytics &amp; Metrics (2 bullets)</h4>
+  <ul>
+    <li><strong>Rigorous KPI &amp; risk metric definitions:</strong> Developed KPI engine computing Sharpe ratio ((mean(r)−rf)/std(ddof=1)×√252), Sortino ratio (downside volatility-based), profit factor (sum(wins)/|sum(losses)|), expectancy (R-multiple weighted returns), and max drawdown (peak-to-trough) with explicit annualization factors. Documented all formulas to eliminate ambiguity; independently cross-checked via Jupyter notebook (exact agreement to the cent).</li>
+    <li><strong>Behavioral &amp; business intelligence:</strong> Generated 20 quantified business insights identifying non-obvious patterns: one hour carries 51% of profit, revenge trading costs −0.141R at 2.3× size, fees consume 54.7% of gross profit, quality collapses after 8th trade/day. All insights computed programmatically from aggregations, avoiding hand-typed fabrications.</li>
+  </ul>
+
+  <h4>Machine Learning &amp; Model Rigor (1-2 bullets)</h4>
+  <ul>
+    <li><strong>ML guardrails &amp; leakage prevention:</strong> Implemented hard-coded ban list of 30 post-close columns with runtime assertions preventing data leakage — a silent but critical ML failure mode. Used chronological train/test split (80/20 by date) instead of random split, training on past data and evaluating on future trades. Achieved ROC-AUC 0.618 on hold-out set and documented honest model card stating limitations (accuracy below baseline, high P(win) doesn't guarantee high expected-R).</li>
+    <li><strong>Model comparison &amp; objective selection:</strong> Trained two models (classification predicting P(win), regression predicting expected-R) on identical features &amp; split. Compared via Spearman correlation (P(win) ρ=−0.016, expected-R ρ=+0.067). Concluded expected-R ranking outperforms in economic value, providing evidence-based objective selection rather than assumptions.</li>
+  </ul>
+
+  <h4>Frontend &amp; Performance (1 bullet)</h4>
+  <ul>
+    <li><strong>Zero-dependency dashboard with real-time filtering:</strong> Designed and built interactive dashboard filtering 10,794 trades in &lt;100ms using hand-rolled SVG (no D3/Chart.js), columnar dictionary-encoded data format (726 KB vs. 3+ MB naive serialization), and vectorized client-side filtering (single O(n) pass over integer arrays). Implemented 6 animated KPI cards, 10 interactive charts, and 5 live filter dimensions without external dependencies.</li>
+  </ul>
+
+</div>
+
+<!-- ====== SECTION 16: FINAL CHECKLIST ====== -->
+<div class="page-break"></div>
+<div class="section">
+  <h2>16. Final Interview Checklist</h2>
+
+  <p><strong>Before your interview, verify you can confidently explain and discuss:</strong></p>
+
+  <h3>✓ Architecture &amp; Design</h3>
+  <ul>
+    <li>□ The three main components (Journal app, Analytics pipeline, Dashboard) and how they interact</li>
+    <li>□ Why you chose Flask/SQLite/Pandas/Scikit-Learn (deliberate tradeoffs, not defaults)</li>
+    <li>□ Star-schema design and why it's better than a denormalized table or fully normalized 6-table design</li>
+    <li>□ Request-response lifecycle from "user logs a trade" to "KPI card updates"</li>
+    <li>□ Data flow: Journal → CSV → Warehouse → Insights → Dashboard</li>
+  </ul>
+
+  <h3>✓ Code Flow &amp; Logic</h3>
+  <ul>
+    <li>□ The 10-stage pipeline and what each stage outputs (generate_dataset, data_cleaning, load_to_sql, ...)</li>
+    <li>□ The 8-stage data-cleaning process (dedup, type coerce, timestamp assembly, duration repair, outlier detection, missing values, integrity checks)</li>
+    <li>□ How the MAD z-score works (0.6745×(log−median)/MAD, why log-price, why per-asset, threshold |z|&gt;8)</li>
+    <li>□ How reconciliation checks work and what they verify (row count, P&amp;L sum, referential integrity, P&amp;L arithmetic)</li>
+    <li>□ How ML leakage is prevented (LEAKY_COLUMNS, runtime assertion, 30 banned columns)</li>
+    <li>□ How the dashboard filters 10,000+ trades in real-time (&lt;100ms: single O(n) pass, columnar arrays, integer comparisons)</li>
+  </ul>
+
+  <h3>✓ Database &amp; SQL</h3>
+  <ul>
+    <li>□ Fact table structure (fact_trades: 50+ columns, grain=one closed trade)</li>
+    <li>□ Dimension tables (dim_trader, dim_asset, dim_strategy, dim_calendar)</li>
+    <li>□ 8 indexes and why each one exists (trader, asset, strategy, session, date, source, month, trader+datetime)</li>
+    <li>□ 3 views and their purpose (daily_pnl, monthly_pnl, trader_summary)</li>
+    <li>□ Gaps-and-islands pattern for streak detection (ROW_NUMBER() subtraction logic)</li>
+    <li>□ Window functions for drawdown (running MAX for running peak, drawdown = peak − current)</li>
+    <li>□ How to compute median in SQLite (ORDER BY/LIMIT/OFFSET workaround, no MEDIAN() function)</li>
+    <li>□ Four reconciliation checks and why they're critical</li>
+  </ul>
+
+  <h3>✓ KPIs &amp; Metrics</h3>
+  <ul>
+    <li>□ Sharpe ratio formula: (mean(r)−rf)/std(ddof=1)×√252 (why ddof=1, why √252, why only traded days)</li>
+    <li>□ Sortino ratio: downside std instead of total std (why downside risk matters)</li>
+    <li>□ Profit factor: sum(wins)/|sum(losses)| (why this is better than gross P&amp;L alone)</li>
+    <li>□ Expectancy: (win% × avg_win) − ((1−win%) × avg_loss) (why this matters for strategy selection)</li>
+    <li>□ R-multiple vs. dollars (why R-multiples make trades comparable regardless of size)</li>
+    <li>□ Why net P&amp;L ≠ gross P&amp;L (fees can be 50%+ of profit)</li>
+  </ul>
+
+  <h3>✓ Challenges &amp; Debugging</h3>
+  <ul>
+    <li>□ Two timestamp formats problem (server: with seconds, browser: without seconds) and triple-fallback solution</li>
+    <li>□ Upload filename timestamp bug (%Y%md%H%M%S missing %d for day)</li>
+    <li>□ Quantity/100 convention and reconciliation check to verify correctness</li>
+    <li>□ Data leakage in early ML attempt and hard-coded ban solution</li>
+    <li>□ SQLite window function limitation (nested windows not allowed; use CTEs)</li>
+    <li>□ How you'd debug each issue (logging, reconciliation checks, cross-validation)</li>
+  </ul>
+
+  <h3>✓ ML &amp; Model Limitations</h3>
+  <ul>
+    <li>□ Why accuracy (60.2%) is below baseline (63.5%) but still meaningful (ROC-AUC 0.618 vs. 0.50 random)</li>
+    <li>□ Why chronological split matters (you train on past, test on future)</li>
+    <li>□ The leakage ban list (30 post-close columns) and why it's enforced with an assertion</li>
+    <li>□ Top-decile lift (57.2% win rate in highest-probability decile vs. 36.5% base)</li>
+    <li>□ Expected-R model beats P(win) ranking (ρ +0.067 vs. −0.016)</li>
+    <li>□ Model card: what the model can &amp; cannot do (honest limitations)</li>
+  </ul>
+
+  <h3>✓ Scaling &amp; Production Readiness</h3>
+  <ul>
+    <li>□ How you'd scale to 100 traders, 1M trades/year (Postgres, dbt, data warehouse, Airflow)</li>
+    <li>□ Current limitations (single-user local, no live updates, SQLite doesn't scale)</li>
+    <li>□ Disaster recovery (rebuild from CSVs, deterministic seeding, backups)</li>
+    <li>□ What "production-grade" means in this context (determinism, reconciliation, fail-fast)</li>
+  </ul>
+
+  <h3>✓ Interview Talking Points</h3>
+  <ul>
+    <li>□ Elevator pitch (3-5 min): problem → solution → key technical decisions → business insights</li>
+    <li>□ Why you chose each technology (Flask, SQLite, Pandas, Scikit-Learn, Vanilla JS)</li>
+    <li>□ Data engineering strength: cleaning pipeline with 11 defect types, reconciliation checks, star schema</li>
+    <li>□ SQL mastery: 21 queries, window functions, gaps-and-islands, CTEs</li>
+    <li>□ ML rigor: leakage guards, chronological split, honest model card</li>
+    <li>□ Frontend performance: columnar data, &lt;100ms filtering, zero dependencies</li>
+  </ul>
+
+  <h3>✓ Before You Walk In</h3>
+  <ul>
+    <li>□ Run the entire pipeline once locally to verify it works: <code>python analytics/scripts/run_all.py</code></li>
+    <li>□ Check the dashboard loads and filters work: open <code>frontend/dashboard/index.html</code></li>
+    <li>□ Verify the KPI numbers in <code>reports/kpi_summary.json</code> (net profit $220,183.99, Sharpe 0.799, etc.)</li>
+    <li>□ Review <code>reports/business_insights.md</code> and <code>reports/data_quality_report.md</code> so you can speak to findings with authority</li>
+    <li>□ Prepare one concrete example of each (schema design choice, SQL pattern, ML guardrail, metric definition)</li>
+    <li>□ Be ready to whiteboard: data flow diagram, star-schema sketch, one SQL query with window functions</li>
+    <li>□ Have a backup answer ready for "if you had more time, what would you add?" (walk-forward validation, dbt, Postgres, live dashboards)</li>
+  </ul>
+
+</div>
+
+</section>
+</body>
+</html>

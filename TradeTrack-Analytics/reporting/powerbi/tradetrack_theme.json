@@ -1,0 +1,131 @@
+{
+  "name": "TradeTrack Fintech Dark",
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.114.json",
+  "dataColors": [
+    "#3987E5",
+    "#D95926",
+    "#199E70",
+    "#C98500",
+    "#D55181",
+    "#008300",
+    "#9085E9",
+    "#E66767"
+  ],
+  "good": "#0CA30C",
+  "neutral": "#FAB219",
+  "bad": "#D03B3B",
+  "maximum": "#3987E5",
+  "center": "#383F4A",
+  "minimum": "#D03B3B",
+  "null": "#7C8698",
+  "background": "#12161C",
+  "secondaryBackground": "#161B23",
+  "tableAccent": "#3987E5",
+  "foreground": "#F2F4F7",
+  "foregroundNeutralSecondary": "#A8B0BD",
+  "foregroundNeutralTertiary": "#7C8698",
+  "textClasses": {
+    "title": {
+      "fontSize": 15,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#F2F4F7"
+    },
+    "header": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#F2F4F7"
+    },
+    "label": {
+      "fontSize": 10,
+      "fontFace": "Segoe UI",
+      "color": "#A8B0BD"
+    },
+    "callout": {
+      "fontSize": 34,
+      "fontFace": "Segoe UI Bold",
+      "color": "#F2F4F7"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [{ "show": true, "color": { "solid": { "color": "#12161C" } }, "transparency": 0 }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#232B36" } }, "radius": 12 }],
+        "dropShadow": [{ "show": true, "color": { "solid": { "color": "#000000" } }, "position": "Outer", "preset": "Custom", "shadowSpread": 8, "shadowBlur": 18, "transparency": 60 }],
+        "visualHeader": [{ "show": true, "background": { "solid": { "color": "#12161C" } }, "foreground": { "solid": { "color": "#7C8698" } } }],
+        "title": [{ "show": true, "fontColor": { "solid": { "color": "#F2F4F7" } }, "background": { "solid": { "color": "#12161C" } }, "alignment": "left", "fontSize": 13, "fontFamily": "Segoe UI Semibold" }],
+        "categoryAxis": [{ "show": true, "labelColor": { "solid": { "color": "#7C8698" } }, "fontSize": 9, "gridlineShow": false, "lineColor": { "solid": { "color": "#2A323F" } } }],
+        "valueAxis": [{ "show": true, "labelColor": { "solid": { "color": "#7C8698" } }, "fontSize": 9, "gridlineShow": true, "gridlineColor": { "solid": { "color": "#1E242E" } }, "gridlineThickness": 1, "gridlineStyle": "solid" }],
+        "legend": [{ "show": true, "position": "TopLeft", "labelColor": { "solid": { "color": "#A8B0BD" } }, "fontSize": 9, "showTitle": false }],
+        "labels": [{ "show": false, "color": { "solid": { "color": "#A8B0BD" } }, "fontSize": 9 }]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [{ "color": { "solid": { "color": "#F2F4F7" } }, "fontSize": 30, "fontFamily": "Segoe UI Bold" }],
+        "categoryLabels": [{ "show": true, "color": { "solid": { "color": "#7C8698" } }, "fontSize": 10 }],
+        "background": [{ "show": true, "color": { "solid": { "color": "#161B23" } }, "transparency": 0 }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#232B36" } }, "radius": 14 }]
+      }
+    },
+    "kpi": {
+      "*": {
+        "indicator": [{ "fontSize": 30, "fontFamily": "Segoe UI Bold" }],
+        "trendline": [{ "show": true, "transparency": 70 }],
+        "goals": [{ "show": false }]
+      }
+    },
+    "columnChart": {
+      "*": {
+        "dataPoint": [{ "fill": { "solid": { "color": "#3987E5" } } }],
+        "labels": [{ "show": false }]
+      }
+    },
+    "barChart": {
+      "*": {
+        "dataPoint": [{ "fill": { "solid": { "color": "#3987E5" } } }],
+        "labels": [{ "show": true, "color": { "solid": { "color": "#A8B0BD" } }, "fontSize": 9 }]
+      }
+    },
+    "lineChart": {
+      "*": {
+        "lineStyles": [{ "strokeWidth": 2, "lineStyle": "solid", "showMarker": false }],
+        "valueAxis": [{ "gridlineShow": true, "gridlineColor": { "solid": { "color": "#1E242E" } } }]
+      }
+    },
+    "areaChart": {
+      "*": {
+        "lineStyles": [{ "strokeWidth": 2, "transparency": 82 }]
+      }
+    },
+    "slicer": {
+      "*": {
+        "background": [{ "show": true, "color": { "solid": { "color": "#161B23" } } }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#232B36" } }, "radius": 10 }],
+        "items": [{ "fontColor": { "solid": { "color": "#A8B0BD" } }, "background": { "solid": { "color": "#12161C" } }, "outline": "None", "fontSize": 10 }],
+        "selection": [{ "strictSingleSelect": false }],
+        "header": [{ "show": true, "fontColor": { "solid": { "color": "#7C8698" } }, "background": { "solid": { "color": "#161B23" } }, "outline": "None", "fontSize": 10 }]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid": [{ "gridVertical": false, "gridHorizontal": true, "gridHorizontalColor": { "solid": { "color": "#1E242E" } }, "outlineColor": { "solid": { "color": "#232B36" } }, "rowPadding": 5 }],
+        "columnHeaders": [{ "fontColor": { "solid": { "color": "#7C8698" } }, "backColor": { "solid": { "color": "#12161C" } }, "fontSize": 10, "outline": "BottomOnly" }],
+        "values": [{ "fontColorPrimary": { "solid": { "color": "#A8B0BD" } }, "backColorPrimary": { "solid": { "color": "#12161C" } }, "fontColorSecondary": { "solid": { "color": "#A8B0BD" } }, "backColorSecondary": { "solid": { "color": "#141922" } }, "fontSize": 10 }]
+      }
+    },
+    "pivotTable": {
+      "*": {
+        "grid": [{ "gridVertical": false, "gridHorizontal": true, "gridHorizontalColor": { "solid": { "color": "#1E242E" } }, "rowPadding": 5 }],
+        "columnHeaders": [{ "fontColor": { "solid": { "color": "#7C8698" } }, "backColor": { "solid": { "color": "#12161C" } }, "fontSize": 10 }],
+        "values": [{ "fontColorPrimary": { "solid": { "color": "#A8B0BD" } }, "backColorPrimary": { "solid": { "color": "#12161C" } }, "fontSize": 10 }]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [{ "color": { "solid": { "color": "#0B0E13" } }, "transparency": 0 }],
+        "outspace": [{ "color": { "solid": { "color": "#0B0E13" } } }]
+      }
+    }
+  }
+}

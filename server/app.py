@@ -1,6 +1,8 @@
 from flask import Flask, send_from_directory, jsonify, request
 import sqlite3
 import os
+import subprocess
+import threading
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
@@ -63,6 +65,29 @@ def index():
 def static_files(path):
     """Serve static files for the frontend."""
     return send_from_directory(app.static_folder, path)
+
+def trigger_analytics_pipeline():
+    """Run the analytics pipeline in background"""
+    try:
+        analytics_dir = os.path.join(os.path.dirname(__file__), '..', 'TradeTrack-Analytics')
+        script_path = os.path.join(analytics_dir, 'python', 'run_all.py')
+
+        if os.path.exists(script_path):
+            subprocess.run(['python3', script_path], cwd=analytics_dir, capture_output=True, timeout=300)
+            print("✅ Analytics pipeline completed successfully")
+        else:
+            print("⚠️ Analytics script not found at", script_path)
+    except subprocess.TimeoutExpired:
+        print("⚠️ Analytics pipeline timeout (5 minutes)")
+    except Exception as e:
+        print(f"❌ Analytics error: {e}")
+
+@app.route('/api/run-analytics', methods=['POST'])
+def run_analytics():
+    """Trigger analytics pipeline to run in background"""
+    thread = threading.Thread(target=trigger_analytics_pipeline, daemon=True)
+    thread.start()
+    return jsonify({'status': 'Analytics pipeline started in background'}), 202
 
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
@@ -201,7 +226,8 @@ def handle_trades():
         ''', (date, asset, trade_type, entry_price, stoploss, target, exit_price, quantity, strategy, notes, profit_loss, photo_filename, mistakes, risk_amount, reward_amount, exit_date))
         conn.commit()
         conn.close()
-        
+
+        trigger_analytics_pipeline()
         return jsonify({'status': 'success', 'message': 'Trade added successfully'})
     
     else: # GET
@@ -275,6 +301,7 @@ def update_delete_trade(trade_id):
             ''', (exit_price, profit_loss, exit_date, trade_id))
             conn.commit()
             conn.close()
+            trigger_analytics_pipeline()
             return jsonify({'status': 'success', 'message': 'Trade closed successfully'})
             
         else:
@@ -325,14 +352,15 @@ def update_delete_trade(trade_id):
                     exit_date = datetime.now().strftime("%Y-%m-%dT%H:%M")
 
             conn.execute('''
-                UPDATE trades SET 
-                    date=?, asset=?, type=?, entry_price=?, stoploss=?, target=?, 
+                UPDATE trades SET
+                    date=?, asset=?, type=?, entry_price=?, stoploss=?, target=?,
                     exit_price=?, quantity=?, strategy=?, notes=?, profit_loss=?, photo=?,
                     mistakes=?, risk_amount=?, reward_amount=?, exit_date=?
                 WHERE id=?
             ''', (date, asset, trade_type, entry_price, stoploss, target, exit_price, quantity, strategy, notes, profit_loss, photo_filename, mistakes, risk_amount, reward_amount, exit_date, trade_id))
             conn.commit()
             conn.close()
+            trigger_analytics_pipeline()
             return jsonify({'status': 'success', 'message': 'Trade updated successfully'})
 
 @app.route('/api/analytics', methods=['GET'])

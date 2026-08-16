@@ -1,0 +1,368 @@
+// ============================================================================
+// TradeTrack Analytics — DAX Measure Library
+// ----------------------------------------------------------------------------
+// Paste into Power BI Desktop (Modeling > New Measure), or import via Tabular
+// Editor. Measures are grouped into display folders matching the groups below.
+//
+// Model assumption: a star schema with FactTrades at trade grain, related to
+// DimCalendar[Date], DimTrader[TraderID], DimAsset[Asset] and
+// DimStrategy[Strategy]. See data_model.md.
+//
+// Conventions, stated because trading metrics are defined inconsistently:
+//   * NET P&L (after fees) drives every performance judgement. Gross is
+//     reported separately so the fee drag stays visible instead of hidden.
+//   * Win rate uses AVERAGE(IsWin) where IsWin is stored 1/0 — a single scan,
+//     no CASE gymnastics, and it stays correct under any filter context.
+//   * DIVIDE() is used everywhere instead of "/" so a zero denominator yields
+//     BLANK rather than an error that blanks the entire visual.
+//   * Comparisons across strategies/traders use R-multiples, never dollars —
+//     dollars only reveal who was sized largest.
+// ============================================================================
+
+
+// ─────────────────────────────────────────────────────────────── 01. Volume
+
+Total Trades =
+COUNTROWS ( FactTrades )
+
+Winning Trades =
+CALCULATE ( [Total Trades], FactTrades[IsWin] = 1 )
+
+Losing Trades =
+CALCULATE ( [Total Trades], FactTrades[IsWin] = 0 )
+
+Active Traders =
+DISTINCTCOUNT ( FactTrades[TraderID] )
+
+Active Days =
+DISTINCTCOUNT ( FactTrades[TradeDate] )
+
+Trades per Active Day =
+DIVIDE ( [Total Trades], [Active Days] )
+
+
+// ─────────────────────────────────────────────────────────────── 02. P&L
+
+Gross Profit =
+SUM ( FactTrades[ProfitLoss] )
+
+Total Fees =
+SUM ( FactTrades[Fees] )
+
+Net Profit =
+SUM ( FactTrades[NetProfit] )
+
+// The headline cost measure. On this dataset it exceeds 50%, which is the
+// single most actionable number in the whole model.
+Fees % of Gross =
+DIVIDE ( [Total Fees], ABS ( [Gross Profit] ) )
+
+Gross Wins =
+CALCULATE ( SUM ( FactTrades[NetProfit] ), FactTrades[NetProfit] > 0 )
+
+Gross Losses =
+ABS ( CALCULATE ( SUM ( FactTrades[NetProfit] ), FactTrades[NetProfit] < 0 ) )
+
+// > 1 means winners pay for losers. Below ~1.2 the edge is inside the noise.
+Profit Factor =
+DIVIDE ( [Gross Wins], [Gross Losses] )
+
+Largest Win =
+MAXX ( FactTrades, FactTrades[NetProfit] )
+
+Largest Loss =
+MINX ( FactTrades, FactTrades[NetProfit] )
+
+
+// ──────────────────────────────────────────────────── 03. Rates & expectancy
+
+Win Rate =
+AVERAGE ( FactTrades[IsWin] )
+
+Loss Rate =
+1 - [Win Rate]
+
+Average Win =
+CALCULATE ( AVERAGE ( FactTrades[NetProfit] ), FactTrades[IsWin] = 1 )
+
+Average Loss =
+CALCULATE ( AVERAGE ( FactTrades[NetProfit] ), FactTrades[IsWin] = 0 )
+
+Payoff Ratio =
+DIVIDE ( ABS ( [Average Win] ), ABS ( [Average Loss] ) )
+
+// The win rate this payoff ratio mathematically requires just to break even.
+// Showing it beside the actual win rate is what stops a 52%-win-rate strategy
+// from looking good when it needs 53% to break even.
+Breakeven Win Rate =
+DIVIDE ( 1, 1 + [Payoff Ratio] )
+
+Edge (pp) =
+[Win Rate] - [Breakeven Win Rate]
+
+Expectancy $ =
+DIVIDE ( [Net Profit], [Total Trades] )
+
+// The ranking measure. Normalises a $12 scalp and a $4,000 swing onto one scale.
+Expectancy R =
+AVERAGE ( FactTrades[RMultiple] )
+
+Total R =
+SUM ( FactTrades[RMultiple] )
+
+
+// ─────────────────────────────────────────────────────── 04. Risk & reward
+
+Avg Planned RR =
+AVERAGE ( FactTrades[RiskRewardRatio] )
+
+Avg Realised RR =
+AVERAGE ( FactTrades[RealisedRR] )
+
+// Negative means trades are being closed short of their planned target —
+// the "cutting winners early" bias, quantified.
+RR Slippage =
+[Avg Realised RR] - [Avg Planned RR]
+
+Avg Risk % =
+AVERAGE ( FactTrades[RiskPct] )
+
+Avg Risk $ =
+AVERAGE ( FactTrades[RiskAmount] )
+
+Total Risked =
+SUM ( FactTrades[RiskAmount] )
+
+// Share of losses that blew through the planned stop. Every 0.1R of average
+// overrun is a permanent tax on expectancy.
+Stop Overrun Rate =
+VAR Losses = CALCULATE ( [Total Trades], FactTrades[IsWin] = 0 )
+VAR Overruns =
+    CALCULATE ( [Total Trades], FactTrades[IsWin] = 0, FactTrades[RMultiple] < -1.05 )
+RETURN
+    DIVIDE ( Overruns, Losses )
+
+
+// ─────────────────────────────────────────────── 05. Equity & drawdown
+// Drawdown is computed on the DAILY equity curve — the reporting convention,
+// and deliberately the same grain the Python and SQL layers use so all three
+// report an identical figure.
+
+Opening Capital = 430000
+
+Cumulative Net Profit =
+CALCULATE (
+    [Net Profit],
+    FILTER ( ALLSELECTED ( DimCalendar[Date] ), DimCalendar[Date] <= MAX ( DimCalendar[Date] ) )
+)
+
+Equity =
+[Opening Capital] + [Cumulative Net Profit]
+
+Running Peak Equity =
+MAXX (
+    FILTER ( ALLSELECTED ( DimCalendar[Date] ), DimCalendar[Date] <= MAX ( DimCalendar[Date] ) ),
+    [Equity]
+)
+
+Drawdown $ =
+[Running Peak Equity] - [Equity]
+
+Drawdown % =
+DIVIDE ( [Drawdown $], [Running Peak Equity] )
+
+// Selected on PERCENTAGE, not dollars: choosing on dollars biases the answer
+// toward whenever equity happened to be largest.
+Max Drawdown % =
+MAXX ( ALLSELECTED ( DimCalendar[Date] ), [Drawdown %] )
+
+Max Drawdown $ =
+MAXX ( ALLSELECTED ( DimCalendar[Date] ), [Drawdown $] )
+
+Recovery Factor =
+DIVIDE ( [Net Profit], [Max Drawdown $] )
+
+
+// ────────────────────────────────────────────── 06. Risk-adjusted return
+
+Daily Return =
+DIVIDE ( [Net Profit], [Opening Capital] )
+
+Return % =
+DIVIDE ( [Net Profit], [Opening Capital] )
+
+// Annualised on 252 trading days, risk-free 4.5%.
+Sharpe Ratio =
+VAR DailyReturns =
+    ADDCOLUMNS (
+        SUMMARIZE ( ALLSELECTED ( FactTrades ), DimCalendar[Date] ),
+        "@ret", [Daily Return]
+    )
+VAR MeanRet = AVERAGEX ( DailyReturns, [@ret] )
+VAR SdRet   = STDEVX.S ( DailyReturns, [@ret] )
+VAR RfDaily = 0.045 / 252
+RETURN
+    DIVIDE ( MeanRet - RfDaily, SdRet ) * SQRT ( 252 )
+
+// Sortino penalises only downside deviation — the honest measure for an
+// asymmetric P&L stream, where upside "volatility" is not a risk.
+Sortino Ratio =
+VAR RfDaily = 0.045 / 252
+VAR DailyReturns =
+    ADDCOLUMNS (
+        SUMMARIZE ( ALLSELECTED ( FactTrades ), DimCalendar[Date] ),
+        "@ret", [Daily Return]
+    )
+VAR MeanRet  = AVERAGEX ( DailyReturns, [@ret] )
+VAR Downside = FILTER ( DailyReturns, [@ret] < RfDaily )
+VAR DownDev  = SQRT ( AVERAGEX ( Downside, ( [@ret] - RfDaily ) ^ 2 ) )
+RETURN
+    DIVIDE ( MeanRet - RfDaily, DownDev ) * SQRT ( 252 )
+
+Calmar Ratio =
+DIVIDE ( [Return %], [Max Drawdown %] )
+
+
+// ───────────────────────────────────────────────────────── 07. Duration
+
+Avg Trade Duration (min) =
+AVERAGE ( FactTrades[TradeDurationMin] )
+
+Median Trade Duration (min) =
+MEDIAN ( FactTrades[TradeDurationMin] )
+
+Avg Duration Wins =
+CALCULATE ( [Avg Trade Duration (min)], FactTrades[IsWin] = 1 )
+
+Avg Duration Losses =
+CALCULATE ( [Avg Trade Duration (min)], FactTrades[IsWin] = 0 )
+
+// The disposition effect in one number: positive means losers are held longer
+// than winners — cutting winners early and hoping losers recover.
+Disposition Gap =
+DIVIDE ( [Avg Duration Losses], [Avg Duration Wins] ) - 1
+
+// Adaptive label so a 3-minute scalp and a 3-day swing both read naturally.
+Avg Duration Label =
+VAR M = [Avg Trade Duration (min)]
+RETURN
+    SWITCH (
+        TRUE (),
+        M < 60,   FORMAT ( M, "0" ) & "m",
+        M < 1440, FORMAT ( M / 60, "0.0" ) & "h",
+        FORMAT ( M / 1440, "0.0" ) & "d"
+    )
+
+
+// ────────────────────────────────────────────────────── 08. Behavioural
+
+Tilt Rate =
+AVERAGE ( FactTrades[IsTiltState] )
+
+Quick Re-entry Rate =
+AVERAGE ( FactTrades[IsQuickReentry] )
+
+Revenge Trade Count =
+CALCULATE ( [Total Trades], FactTrades[EmotionalState] = "Revenge" )
+
+Revenge Expectancy R =
+CALCULATE ( [Expectancy R], FactTrades[EmotionalState] = "Revenge" )
+
+Disciplined Expectancy R =
+CALCULATE ( [Expectancy R], FactTrades[EmotionalState] = "Disciplined" )
+
+// Headline behavioural KPI: how much worse a tilted trade is, in R.
+Discipline Premium R =
+[Disciplined Expectancy R] - [Revenge Expectancy R]
+
+// Revenge trades are also the LARGEST — worst expectancy at biggest size is
+// the precise mechanism of account destruction.
+Revenge Size Multiple =
+DIVIDE (
+    CALCULATE ( [Avg Risk %], FactTrades[EmotionalState] = "Revenge" ),
+    CALCULATE ( [Avg Risk %], FactTrades[EmotionalState] = "Disciplined" )
+)
+
+
+// ───────────────────────────────────────────────── 09. Time intelligence
+
+Net Profit PM =
+CALCULATE ( [Net Profit], DATEADD ( DimCalendar[Date], -1, MONTH ) )
+
+MoM Growth % =
+DIVIDE ( [Net Profit] - [Net Profit PM], ABS ( [Net Profit PM] ) )
+
+Net Profit YTD =
+TOTALYTD ( [Net Profit], DimCalendar[Date] )
+
+Net Profit Rolling 30D =
+CALCULATE (
+    [Net Profit],
+    DATESINPERIOD ( DimCalendar[Date], MAX ( DimCalendar[Date] ), -30, DAY )
+)
+
+Win Rate Rolling 30D =
+CALCULATE (
+    [Win Rate],
+    DATESINPERIOD ( DimCalendar[Date], MAX ( DimCalendar[Date] ), -30, DAY )
+)
+
+
+// ───────────────────────────────────────────────── 10. Ranking & labels
+
+Trader Rank =
+RANKX ( ALLSELECTED ( DimTrader[TraderID] ), [Expectancy R], , DESC, DENSE )
+
+Asset Rank =
+RANKX ( ALLSELECTED ( DimAsset[Asset] ), [Expectancy R], , DESC, DENSE )
+
+Strategy Rank =
+RANKX ( ALLSELECTED ( DimStrategy[Strategy] ), [Expectancy R], , DESC, DENSE )
+
+Best Strategy =
+VAR T = TOPN ( 1, ALLSELECTED ( DimStrategy[Strategy] ), [Expectancy R], DESC )
+RETURN
+    CONCATENATEX ( T, DimStrategy[Strategy] )
+
+Worst Strategy =
+VAR T = TOPN ( 1, ALLSELECTED ( DimStrategy[Strategy] ), [Expectancy R], ASC )
+RETURN
+    CONCATENATEX ( T, DimStrategy[Strategy] )
+
+Best Session =
+VAR T = TOPN ( 1, ALLSELECTED ( FactTrades[TradingSession] ), [Expectancy R], DESC )
+RETURN
+    CONCATENATEX ( T, FactTrades[TradingSession] )
+
+// Drives the leaderboard's action column.
+Recommended Action =
+SWITCH (
+    TRUE (),
+    [Profit Factor] >= 1.3 && [Max Drawdown %] < 0.25, "Scale up",
+    [Profit Factor] >= 1.0,                            "Maintain",
+    [Tilt Rate] > 0.20,                                "Behavioural coaching",
+    "Reduce size / review"
+)
+
+
+// ──────────────────────────────────────────────── 11. Conditional formatting
+// Return hex strings, bound to a visual's "Font colour > fx > Field value".
+// Status colours are paired with the sign of the number in every visual, so
+// colour never carries the meaning on its own.
+
+PnL Colour =
+IF ( [Net Profit] >= 0, "#0CA30C", "#D03B3B" )
+
+Expectancy Colour =
+IF ( [Expectancy R] >= 0, "#0CA30C", "#D03B3B" )
+
+Profit Factor Colour =
+SWITCH (
+    TRUE (),
+    [Profit Factor] >= 1.30, "#0CA30C",
+    [Profit Factor] >= 1.00, "#FAB219",
+    "#D03B3B"
+)
+
+KPI Title Net Profit =
+"Net Profit  " & FORMAT ( [Net Profit], "$#,0;($#,0)" )

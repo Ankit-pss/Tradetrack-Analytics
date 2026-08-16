@@ -9,7 +9,7 @@
 1. loaded 11,130 raw rows x 30 columns
 1. removed 180 exact duplicate rows
 1. coerced 156 string-formatted numeric values to float
-1. normalised casing/whitespace on 720 categorical values
+1. normalised casing/whitespace on 460 categorical values
 1. repaired 45 impossible (<=0) trade durations from timestamps; 0 left as null
 1. flagged 17 fat-finger entry prices (robust MAD z-score > 8)
 1. quarantined 140 still-open trades (no exit recorded)

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TradeTrack Analytics — Trading Performance &amp; Risk Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="glow glow-a" aria-hidden="true"></div>
+<div class="glow glow-b" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17l5-6 4 4 5-7 4 5"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>TradeTrack <span>Analytics</span></h1>
+      <p>AI-Powered Trading Performance &amp; Risk Analysis</p>
+    </div>
+  </div>
+  <div class="meta">
+    <div class="meta-item"><span class="label">Dataset</span><span class="value" id="meta-trades">—</span></div>
+    <div class="meta-item"><span class="label">Period</span><span class="value" id="meta-period">—</span></div>
+    <div class="meta-item"><span class="label">Traders</span><span class="value" id="meta-traders">—</span></div>
+  </div>
+</header>
+
+<!-- ────────────────────────────  FILTERS  ──────────────────────────── -->
+<section class="filters glass" aria-label="Dashboard filters">
+  <div class="filter-group">
+    <label for="f-from">From</label>
+    <input type="date" id="f-from">
+  </div>
+  <div class="filter-group">
+    <label for="f-to">To</label>
+    <input type="date" id="f-to">
+  </div>
+  <div class="filter-group grow">
+    <label>Asset</label>
+    <div class="chips" id="f-asset" role="group" aria-label="Filter by asset"></div>
+  </div>
+  <div class="filter-group grow">
+    <label>Strategy</label>
+    <div class="chips" id="f-strategy" role="group" aria-label="Filter by strategy"></div>
+  </div>
+  <div class="filter-group">
+    <label>Session</label>
+    <div class="chips" id="f-session" role="group" aria-label="Filter by session"></div>
+  </div>
+  <div class="filter-group">
+    <label>Side</label>
+    <div class="chips" id="f-side" role="group" aria-label="Filter by trade type"></div>
+  </div>
+  <div class="filter-group">
+    <label>View</label>
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="both" type="button">All</button>
+      <button class="view-btn" data-view="real" type="button">Real</button>
+      <button class="view-btn" data-view="synthetic" type="button">Synthetic</button>
+    </div>
+  </div>
+  <div class="filter-group">
+    <label>Source</label>
+    <div class="chips" id="f-source" role="group" aria-label="Filter by data source"></div>
+  </div>
+  <button id="f-reset" class="reset" type="button">Reset</button>
+</section>
+
+<p class="filter-status" id="filter-status" role="status"></p>
+
+<!-- ────────────────────────────  KPI CARDS  ─────────────────────────── -->
+<section class="kpis" aria-label="Key performance indicators">
+  <article class="kpi glass" data-accent="blue">
+    <span class="kpi-label">Gross Profit</span>
+    <span class="kpi-value" id="kpi-gross">—</span>
+    <span class="kpi-sub" id="kpi-gross-sub">before fees</span>
+    <div class="spark" id="spark-gross"></div>
+  </article>
+  <article class="kpi glass" data-accent="green">
+    <span class="kpi-label">Net Profit</span>
+    <span class="kpi-value" id="kpi-net">—</span>
+    <span class="kpi-sub" id="kpi-net-sub">after fees</span>
+    <div class="spark" id="spark-net"></div>
+  </article>
+  <article class="kpi glass" data-accent="aqua">
+    <span class="kpi-label">Win Rate</span>
+    <span class="kpi-value" id="kpi-wr">—</span>
+    <span class="kpi-sub" id="kpi-wr-sub">—</span>
+    <div class="meter"><div class="meter-fill" id="meter-wr"></div></div>
+  </article>
+  <article class="kpi glass" data-accent="violet">
+    <span class="kpi-label">Avg Reward : Risk</span>
+    <span class="kpi-value" id="kpi-rr">—</span>
+    <span class="kpi-sub" id="kpi-rr-sub">planned vs realised</span>
+  </article>
+  <article class="kpi glass" data-accent="red">
+    <span class="kpi-label">Max Drawdown</span>
+    <span class="kpi-value" id="kpi-dd">—</span>
+    <span class="kpi-sub" id="kpi-dd-sub">peak to trough</span>
+  </article>
+  <article class="kpi glass" data-accent="orange">
+    <span class="kpi-label">Avg Trade Duration</span>
+    <span class="kpi-value" id="kpi-dur">—</span>
+    <span class="kpi-sub" id="kpi-dur-sub">median —</span>
+  </article>
+</section>
+
+<!-- ────────────────────────────  CHARTS  ────────────────────────────── -->
+<main class="grid">
+
+  <section class="card glass span-12">
+    <header class="card-head">
+      <div>
+        <h2>Equity Curve</h2>
+        <p id="equity-deck">Cumulative desk equity after fees</p>
+      </div>
+      <div class="legend" id="equity-legend"></div>
+    </header>
+    <div class="chart" id="chart-equity" data-h="300"></div>
+  </section>
+
+  <section class="card glass span-7">
+    <header class="card-head">
+      <div><h2>Monthly Net P&amp;L</h2><p id="monthly-deck">—</p></div>
+      <div class="legend">
+        <span class="lg"><i class="sw" style="background:var(--profit)"></i>Profit</span>
+        <span class="lg"><i class="sw" style="background:var(--loss)"></i>Loss</span>
+      </div>
+    </header>
+    <div class="chart" id="chart-monthly" data-h="250"></div>
+  </section>
+
+  <section class="card glass span-5">
+    <header class="card-head">
+      <div><h2>Daily P&amp;L Distribution</h2><p>Frequency of daily outcomes</p></div>
+    </header>
+    <div class="chart" id="chart-daily" data-h="250"></div>
+  </section>
+
+  <section class="card glass span-6">
+    <header class="card-head">
+      <div><h2>Net P&amp;L by Asset</h2><p>After fees, sorted by contribution</p></div>
+    </header>
+    <div class="chart" id="chart-asset" data-h="260"></div>
+  </section>
+
+  <section class="card glass span-6">
+    <header class="card-head">
+      <div><h2>Strategy Performance</h2><p>Expectancy per trade in R units</p></div>
+    </header>
+    <div class="chart" id="chart-strategy" data-h="260"></div>
+  </section>
+
+  <section class="card glass span-4">
+    <header class="card-head">
+      <div><h2>Trading Session</h2><p>Net P&amp;L by session window</p></div>
+    </header>
+    <div class="chart" id="chart-session" data-h="230"></div>
+  </section>
+
+  <section class="card glass span-4">
+    <header class="card-head">
+      <div><h2>Risk Distribution</h2><p>Share of trades by risk band</p></div>
+    </header>
+    <div class="chart" id="chart-risk" data-h="230"></div>
+  </section>
+
+  <section class="card glass span-4">
+    <header class="card-head">
+      <div><h2>Hour of Day</h2><p>Net P&amp;L by entry hour (UTC)</p></div>
+    </header>
+    <div class="chart" id="chart-hour" data-h="230"></div>
+  </section>
+
+  <section class="card glass span-6">
+    <header class="card-head">
+      <div><h2>Top 10 Winning Days</h2><p>Best sessions on the desk</p></div>
+    </header>
+    <div class="chart table-chart" id="chart-topwin" data-h="290"></div>
+  </section>
+
+  <section class="card glass span-6">
+    <header class="card-head">
+      <div><h2>Top 10 Losing Days</h2><p>Worst sessions on the desk</p></div>
+    </header>
+    <div class="chart table-chart" id="chart-toploss" data-h="290"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>
+    <strong>TradeTrack Analytics</strong> · Generated from <span id="foot-rows">—</span>
+    cleaned trades · <span id="foot-generated">—</span>
+  </p>
+  <p class="muted">
+    All performance figures are net of fees. Comparisons between strategies and
+    traders use R-multiples (net P&amp;L ÷ dollars risked) so that differently
+    sized books are judged on the same scale.
+  </p>
+</footer>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
